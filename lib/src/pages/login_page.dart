@@ -90,17 +90,20 @@ Widget _crearPassword() {
 }
 
 Widget _crearButton() {
-  return RaisedButton(
-    padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-    child: Container(
-      child: Text("Ingresar"),
-    ),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
-    elevation: 0.0,
-    color: Colors.deepPurple,
-    textColor: Colors.white,
-    onPressed: () {},
-  );
+  return ElevatedButton(
+      onPressed: () {},
+      child: Container(
+        child: Text("Ingresar"),
+      ),
+      style: ElevatedButton.styleFrom(
+        primary: Colors.deepPurple,
+        onPrimary: Colors.white,
+        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
+        elevation: 0.0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+      ));
 }
 
 Widget _crearFondo(BuildContext context) {
