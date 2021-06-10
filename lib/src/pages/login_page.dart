@@ -138,7 +138,7 @@ Widget _crearButton(url, name) {
         if (snapshot.hasData) {
           return Container(
             child: TextButton.icon(
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(context, 'home'),
               icon: Image.network(
                 urlImage,
                 height: 40.0,
