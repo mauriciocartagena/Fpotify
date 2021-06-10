@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:translator/translator.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -29,29 +30,29 @@ Widget _loginForm(BuildContext context) {
                 borderRadius: BorderRadius.circular(5.0),
                 boxShadow: <BoxShadow>[
                   BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 3.0,
-                      offset: Offset(0.0, 5.0),
-                      spreadRadius: 3.0),
+                    color: Colors.black26,
+                    blurRadius: 3.0,
+                    offset: Offset(0.0, 5.0),
+                    spreadRadius: 3.0,
+                  ),
                 ]),
             child: Column(
               children: <Widget>[
-                Text(
-                  'Ingreso',
-                  style: TextStyle(fontSize: 20.0),
-                ),
+                _mensaje('Welcome'),
                 SizedBox(
                   height: 60.0,
                 ),
-                _crearEmail(),
-                SizedBox(
-                  height: 60.0,
+                _crearButton(
+                  'https://midu.dev/images/tags/github.png',
+                  'Log in with GitHub',
                 ),
-                _crearPassword(),
                 SizedBox(
-                  height: 60.0,
+                  height: 40.0,
                 ),
-                _crearButton()
+                _crearButton(
+                  'https://freepikpsd.com/media/2019/10/twitter-logo-white-png-4-Transparent-Images-Free.png',
+                  'Log in with Twitter',
+                )
               ],
             )),
         Text('¿Olvido su contrasena?'),
@@ -61,6 +62,43 @@ Widget _loginForm(BuildContext context) {
       ],
     ),
   );
+}
+
+Future<String> _tranlator(data) async {
+  final translator = GoogleTranslator();
+  final input = data;
+
+  final inputTranslator =
+      await translator.translate(input, from: 'en', to: 'es');
+  return '$inputTranslator';
+}
+
+Widget _mensaje(title) {
+  return FutureBuilder(
+      future: _tranlator(title),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            child: Container(
+              child: SizedBox(
+                width: double.infinity,
+                child: Text(
+                  snapshot.data,
+                  style: TextStyle(
+                    color: Colors.deepPurple,
+                    fontSize: 25.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 25),
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+      });
 }
 
 Widget _crearEmail() {
@@ -89,21 +127,46 @@ Widget _crearPassword() {
   );
 }
 
-Widget _crearButton() {
-  return ElevatedButton(
-      onPressed: () {},
-      child: Container(
-        child: Text("Ingresar"),
-      ),
-      style: ElevatedButton.styleFrom(
-        primary: Colors.deepPurple,
-        onPrimary: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 15.0),
-        elevation: 0.0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-      ));
+Widget _crearButton(url, name) {
+  final urlImage =
+      url == null ? 'https://midu.dev/images/tags/github.png' : url;
+  final title = name == null ? 'No have title' : name;
+
+  return FutureBuilder(
+      future: _tranlator(title),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return Container(
+            child: TextButton.icon(
+              onPressed: () {},
+              icon: Image.network(
+                urlImage,
+                height: 40.0,
+                width: 40.0,
+                color: Colors.white,
+              ),
+              label: Expanded(
+                  child: Text(
+                snapshot.data,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              )),
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.deepPurple,
+                padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
+                elevation: 0.0,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+              ),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+      });
 }
 
 Widget _crearFondo(BuildContext context) {
@@ -126,6 +189,8 @@ Widget _crearFondo(BuildContext context) {
         color: Color.fromRGBO(255, 255, 255, 0.05)),
   );
 
+  final urlImage = 'https://midu.dev/images/tags/github.png';
+
   return Stack(
     children: <Widget>[
       fondoMorado,
@@ -138,19 +203,29 @@ Widget _crearFondo(BuildContext context) {
         padding: EdgeInsets.only(top: 80.0),
         child: Column(
           children: <Widget>[
-            Icon(
-              Icons.person_pin_circle,
-              color: Colors.white,
-              size: 100.0,
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100.0),
+              child: Image.network(urlImage, width: 140.0, color: Colors.white,
+                  loadingBuilder: (context, child, progress) {
+                return progress == null
+                    ? child
+                    : CircularProgressIndicator(
+                        strokeWidth: 5,
+                      );
+              }),
+            ),
+            Text(
+              'Fpotify',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 30,
+                letterSpacing: 2,
+              ),
             ),
             SizedBox(
               height: 10.0,
               width: double.infinity,
             ),
-            Text(
-              'Mauricio Cartagena',
-              style: TextStyle(color: Colors.white, fontSize: 25.0),
-            )
           ],
         ),
       )
