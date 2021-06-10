@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:translator/translator.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
 
 class LoginPage extends StatelessWidget {
   @override
@@ -43,16 +44,18 @@ Widget _loginForm(BuildContext context) {
                   height: 60.0,
                 ),
                 _crearButton(
-                  'https://midu.dev/images/tags/github.png',
+                  Buttons.GitHub,
                   'Log in with GitHub',
+                  'auth-github',
                 ),
                 SizedBox(
                   height: 40.0,
                 ),
                 _crearButton(
-                  'https://freepikpsd.com/media/2019/10/twitter-logo-white-png-4-Transparent-Images-Free.png',
+                  Buttons.Twitter,
                   'Log in with Twitter',
-                )
+                  'auth-twitter',
+                ),
               ],
             )),
         Text('¿Olvido su contrasena?'),
@@ -127,9 +130,7 @@ Widget _crearPassword() {
   );
 }
 
-Widget _crearButton(url, name) {
-  final urlImage =
-      url == null ? 'https://midu.dev/images/tags/github.png' : url;
+Widget _crearButton(type, name, nameRouter) {
   final title = name == null ? 'No have title' : name;
 
   return FutureBuilder(
@@ -137,30 +138,13 @@ Widget _crearButton(url, name) {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return Container(
-            child: TextButton.icon(
-              onPressed: () => Navigator.pushNamed(context, 'home'),
-              icon: Image.network(
-                urlImage,
-                height: 40.0,
-                width: 40.0,
-                color: Colors.white,
-              ),
-              label: Expanded(
-                  child: Text(
-                snapshot.data,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              )),
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                padding: EdgeInsets.symmetric(horizontal: 50.0, vertical: 15.0),
-                elevation: 0.0,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-              ),
+            child: SignInButton(
+              type,
+              text: snapshot.data,
+              onPressed: () => Navigator.pushNamed(context, nameRouter),
             ),
+            width: 460,
+            height: 50.0,
             padding: EdgeInsets.symmetric(horizontal: 25.0),
           );
         } else {
