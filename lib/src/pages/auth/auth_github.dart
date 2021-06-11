@@ -1,7 +1,8 @@
-import 'package:flutter_application_1/src/pages/FollowingPage.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_application_1/src/bloc/login_bloc.dart';
+import 'package:flutter_application_1/src/bloc/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/src/providers/UserProvider.dart';
+import 'package:flutter_application_1/src/providers/auth_provider.dart';
+import 'package:flutter_application_1/src/utills/utils.dart';
 
 class AuthGitHub extends StatefulWidget {
   @override
@@ -10,24 +11,13 @@ class AuthGitHub extends StatefulWidget {
 
 class _AuthGitHubState extends State<AuthGitHub> {
   TextEditingController _controller = TextEditingController();
-  void _getUser() {
-    if (_controller.text == '') {
-      Provider.of<UserProvider>(context, listen: false)
-          .setMessage('Please Enter your username');
-    } else {
-      Provider.of<UserProvider>(context, listen: false)
-          .fetchUser(_controller.text)
-          .then((value) {
-        if (value) {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => FollowingPage()));
-        }
-      });
-    }
-  }
+
+  final userProvider = new AuthProvider();
 
   @override
   Widget build(BuildContext context) {
+    final bloc = Provider.of(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -63,23 +53,7 @@ class _AuthGitHubState extends State<AuthGitHub> {
                 SizedBox(
                   height: 50,
                 ),
-                Container(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 15,
-                    vertical: 10,
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white.withOpacity(.1)),
-                  child: TextField(
-                    controller: _controller,
-                    style: TextStyle(color: Colors.white),
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: 'GitHub username',
-                        hintStyle: TextStyle(color: Colors.grey)),
-                  ),
-                ),
+                _crearUsername(bloc, context),
                 SizedBox(
                   height: 20,
                 ),
@@ -89,19 +63,12 @@ class _AuthGitHubState extends State<AuthGitHub> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   child: Align(
-                    child: Provider.of<UserProvider>(context).isLoading()
-                        ? CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                            strokeWidth: 2,
-                          )
-                        : Text(
-                            'Get Your Following Now',
-                            style: TextStyle(color: Colors.white),
-                          ),
+                    child: Text(
+                      'Iniciar sessión',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                  onPressed: () {
-                    _getUser();
-                  },
+                  onPressed: () => _login(bloc),
                 )
               ],
             ),
@@ -109,5 +76,46 @@ class _AuthGitHubState extends State<AuthGitHub> {
         ),
       ),
     );
+  }
+
+  Widget _crearUsername(LoginBloc bloc, BuildContext context) {
+    return StreamBuilder(
+      stream: bloc.usernameStream,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        return Container(
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 10,
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white.withOpacity(.1),
+            ),
+            child: TextField(
+              controller: _controller,
+              style: TextStyle(color: Colors.white),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Tu username',
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                ),
+              ),
+              onChanged: bloc.changeUsername,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  _login(LoginBloc bloc) async {
+    final info = await userProvider.cargarInformacion(bloc.username);
+    if (info['ok']) {
+      Navigator.pushReplacementNamed(context, 'home');
+    } else {
+      mostrarAlerta(context, info['mensaje']);
+    }
   }
 }

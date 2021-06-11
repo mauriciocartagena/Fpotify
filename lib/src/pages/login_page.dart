@@ -54,7 +54,7 @@ Widget _loginForm(BuildContext context) {
                 _crearButton(
                   Buttons.Twitter,
                   'Log in with Twitter',
-                  'auth-twitter',
+                  'home',
                 ),
               ],
             )),

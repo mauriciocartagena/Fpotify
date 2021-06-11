@@ -30,7 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   translator: ^0.1.7
   flutter_signin_button: ^2.0.0
-  provider: ^5.0.0
+  rxdart: ^0.27.1
 
 dev_dependencies:
   flutter_test:
