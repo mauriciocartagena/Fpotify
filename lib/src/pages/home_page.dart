@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/bloc/provider.dart';
 import 'package:flutter_application_1/src/models/auth_model.dart';
+import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:flutter_application_1/src/providers/auth_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,14 +12,23 @@ class HomePage extends StatefulWidget {
 final authProvider = AuthProvider();
 
 class _HomePageState extends State<HomePage> {
+  static final String routeName = 'home';
+
+  final prefs = new PreferenciasUsuario();
+
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
 
+    prefs.ultimaPagina = _HomePageState.routeName;
+
     return Scaffold(
       body: Container(
         color: Colors.white,
-        child: _cargarUser(context, bloc.username),
+        child: _cargarUser(
+          context,
+          prefs.username != '' ? prefs.username : bloc.username,
+        ),
       ),
     );
   }
@@ -38,7 +48,8 @@ Widget _cargarUser(BuildContext context, username) {
                   color: Colors.grey,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  // Navigator.pop(context);
+                  Navigator.pushNamed(context, 'login');
                 },
               ),
               backgroundColor: Colors.white,

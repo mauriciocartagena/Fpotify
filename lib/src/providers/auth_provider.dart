@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter_application_1/src/models/auth_model.dart';
+import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:http/http.dart' as http;
 
 class AuthProvider {
   final String _url = 'https://api.github.com';
+
+  final _prefs = new PreferenciasUsuario();
 
   Future<Map<String, dynamic>> cargarInformacion(username) async {
     final url = '$_url/users/$username';
@@ -15,6 +18,8 @@ class AuthProvider {
 
     // print(user[0].message);
     if (!decodedData.containsKey('message')) {
+      _prefs.username = decodedData['login'];
+
       return {'ok': true, 'username': decodedData['login']};
     } else {
       return {'ok': false, 'mensaje': decodedData['message']};

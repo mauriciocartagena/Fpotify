@@ -32,6 +32,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
   rxdart: ^0.27.1
   transparent_image: ^2.0.0
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:

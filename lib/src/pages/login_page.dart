@@ -58,10 +58,9 @@ Widget _loginForm(BuildContext context) {
                 ),
               ],
             )),
-        Text('¿Olvido su contrasena?'),
-        SizedBox(
-          height: 30.0,
-        )
+        Expanded(
+          child: Text('¿Olvido su contrasena?'),
+        ),
       ],
     ),
   );
