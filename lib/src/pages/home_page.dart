@@ -1,19 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/bloc/provider.dart';
+import 'package:flutter_application_1/src/models/auth_model.dart';
+import 'package:flutter_application_1/src/providers/auth_provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
+final authProvider = AuthProvider();
+
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final bloc = Provider.of(context);
+
     return Scaffold(
       body: Container(
         color: Colors.white,
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
+        child: _cargarUser(context, bloc.username),
+      ),
+    );
+  }
+}
+
+Widget _cargarUser(BuildContext context, username) {
+  return FutureBuilder(
+    future: authProvider.me(username),
+    builder: (BuildContext context, AsyncSnapshot<List<AuthModel>> snapshot) {
+      if (snapshot.hasData) {
+        return CustomScrollView(slivers: <Widget>[
+          SliverAppBar(
               brightness: Brightness.light,
               leading: IconButton(
                 icon: Icon(
@@ -38,82 +55,25 @@ class _HomePageState extends State<HomePage> {
                         child: CircleAvatar(
                           radius: 50.0,
                           backgroundColor: Colors.transparent,
-                          backgroundImage: NetworkImage(''),
+                          backgroundImage:
+                              NetworkImage(snapshot.data[0].avatarUrl),
                         ),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       Text(
-                        // user.login,
-                        'Mauricio',
+                        snapshot.data[0].login,
                         style: TextStyle(fontSize: 20),
                       )
                     ],
                   ),
                 ),
-              ),
-            ),
-            // SliverList(
-            //   delegate: SliverChildListDelegate([
-            //     Container(
-            //       height: 600,
-            //       child: users != null
-            //           ? ListView.builder(
-            //               scrollDirection: Axis.vertical,
-            //               itemCount: users.length,
-            //               itemBuilder: (context, index) {
-            //                 return Container(
-            //                   padding: EdgeInsets.all(15),
-            //                   decoration: BoxDecoration(
-            //                       border: Border(
-            //                           bottom:
-            //                               BorderSide(color: Colors.grey[200]))),
-            //                   child: Row(
-            //                     crossAxisAlignment: CrossAxisAlignment.center,
-            //                     mainAxisAlignment:
-            //                         MainAxisAlignment.spaceBetween,
-            //                     children: <Widget>[
-            //                       Row(
-            //                         crossAxisAlignment:
-            //                             CrossAxisAlignment.center,
-            //                         children: <Widget>[
-            //                           Container(
-            //                             width: 60,
-            //                             height: 60,
-            //                             child: CircleAvatar(
-            //                               backgroundImage:
-            //                                   NetworkImage(user.htmlUrl),
-            //                             ),
-            //                           ),
-            //                           SizedBox(
-            //                             width: 10,
-            //                           ),
-            //                           Text(
-            //                             users[index].login,
-            //                             style: TextStyle(
-            //                                 fontSize: 20,
-            //                                 color: Colors.grey[700]),
-            //                           ),
-            //                         ],
-            //                       ),
-            //                       Text(
-            //                         'Following',
-            //                         style: TextStyle(color: Colors.blue),
-            //                       )
-            //                     ],
-            //                   ),
-            //                 );
-            //               },
-            //             )
-            //           : Container(
-            //               child: Align(child: Text('Data is loading ...'))),
-            //     )
-            //   ]),
-            // )
-          ],
-        ),
-      ),
-    );
-  }
+              ))
+        ]);
+      } else {
+        return Center(child: CircularProgressIndicator());
+      }
+    },
+  );
 }

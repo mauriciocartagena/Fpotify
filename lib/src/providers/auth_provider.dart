@@ -21,8 +21,8 @@ class AuthProvider {
     }
   }
 
-  Future<List<AuthModel>> cargarFollow() async {
-    final url = '$_url/users/mauriciocartagena/following';
+  Future<List<AuthModel>> me(username) async {
+    final url = '$_url/users/$username';
 
     final resp = await http.get(Uri.parse(url));
 
@@ -39,3 +39,22 @@ class AuthProvider {
     return user;
   }
 }
+
+//   Future<List<AuthModel>> cargarFollow() async {
+//     final url = '$_url/users/mauriciocartagena/following';
+
+//     final resp = await http.get(Uri.parse(url));
+
+//     final Map<String, dynamic> decodedData = json.decode(resp.body);
+//     final List<AuthModel> user = [];
+
+//     if (decodedData == null) return [];
+
+//     final userTemp = AuthModel.fromJson(decodedData);
+
+//     user.add(userTemp);
+
+//     // print(user[0].login);
+//     return user;
+//   }
+// }

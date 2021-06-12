@@ -18,6 +18,7 @@ class _AuthGitHubState extends State<AuthGitHub> {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
