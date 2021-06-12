@@ -3,6 +3,7 @@ import 'package:flutter_application_1/src/bloc/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/providers/auth_provider.dart';
 import 'package:flutter_application_1/src/utills/utils.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class AuthGitHub extends StatefulWidget {
   @override
@@ -17,7 +18,6 @@ class _AuthGitHubState extends State<AuthGitHub> {
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of(context);
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -30,15 +30,7 @@ class _AuthGitHubState extends State<AuthGitHub> {
                 SizedBox(
                   height: 200,
                 ),
-                Container(
-                  width: 80,
-                  height: 80,
-                  child: CircleAvatar(
-                    backgroundColor: Colors.transparent,
-                    backgroundImage: NetworkImage(
-                        'https://icon-library.net/images/github-icon-png/github-icon-png-29.jpg'),
-                  ),
-                ),
+                _logo(context),
                 SizedBox(
                   height: 30,
                 ),
@@ -73,6 +65,20 @@ class _AuthGitHubState extends State<AuthGitHub> {
               ],
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _logo(BuildContext context) {
+    return Container(
+      width: 80,
+      height: 80,
+      child: CircleAvatar(
+        backgroundColor: Colors.transparent,
+        child: FadeInImage(
+          placeholder: MemoryImage(kTransparentImage),
+          image: AssetImage('assets/github.jpeg'),
         ),
       ),
     );
