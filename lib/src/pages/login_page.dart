@@ -90,6 +90,7 @@ Widget _mensaje(title) {
                     color: Colors.deepPurple,
                     fontSize: 25.0,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'GothamMediumItalic',
                   ),
                   textAlign: TextAlign.left,
                 ),
