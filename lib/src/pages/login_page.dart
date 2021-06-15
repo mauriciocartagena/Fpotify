@@ -189,28 +189,32 @@ Widget _crearFondo(BuildContext context) {
       Positioned(bottom: 120.0, right: 20.0, child: circulo),
       Positioned(bottom: -50.0, left: -20.0, child: circulo),
       Container(
-        // padding: EdgeInsets.only(top: 80.0),
+        padding: EdgeInsets.only(top: 25.0),
         child: Column(
           children: <Widget>[
             Stack(
               alignment: Alignment.center,
               children: <Widget>[
                 FadeInImage(
+                  width: double.infinity,
+                  height: 120,
                   placeholder: MemoryImage(kTransparentImage),
                   image: AssetImage('assets/adaptive-icon.png'),
-                  //  Colors.white,
                 ),
-                Positioned(
-                  bottom: 60.0,
-                  child: Text(
-                    'Fpotify',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      letterSpacing: 2,
+                Container(
+                  padding: EdgeInsets.only(top: 187.0),
+                  child: Positioned(
+                    top: 40.0,
+                    child: Text(
+                      'Fpotify',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 30,
+                        letterSpacing: 2,
+                      ),
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ],
