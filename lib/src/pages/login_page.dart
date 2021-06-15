@@ -202,13 +202,14 @@ Widget _crearFondo(BuildContext context) {
                   image: AssetImage('assets/adaptive-icon.png'),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 187.0),
+                  padding: EdgeInsets.only(top: 205.0),
                   child: Positioned(
                     top: 40.0,
                     child: Text(
                       'Fpotify',
                       style: TextStyle(
                         color: Colors.white,
+                        fontFamily: 'GothamMediumItalic',
                         fontSize: 30,
                         letterSpacing: 2,
                       ),
