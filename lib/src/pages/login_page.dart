@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:translator/translator.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-          Stack(children: <Widget>[_crearFondo(context), _loginForm(context)]),
+      body: Stack(
+        children: <Widget>[_crearFondo(context), _loginForm(context)],
+      ),
     );
   }
 }
@@ -23,41 +25,42 @@ Widget _loginForm(BuildContext context) {
           height: 180.0,
         )),
         Container(
-            margin: EdgeInsets.symmetric(vertical: 50.0),
-            width: size.width * 0.85,
-            padding: EdgeInsets.symmetric(vertical: 50.0),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(5.0),
-                boxShadow: <BoxShadow>[
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 3.0,
-                    offset: Offset(0.0, 5.0),
-                    spreadRadius: 3.0,
-                  ),
-                ]),
-            child: Column(
-              children: <Widget>[
-                _mensaje('Welcome'),
-                SizedBox(
-                  height: 60.0,
+          margin: EdgeInsets.symmetric(vertical: 50.0),
+          width: size.width * 0.85,
+          padding: EdgeInsets.symmetric(vertical: 50.0),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(5.0),
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 3.0,
+                  offset: Offset(0.0, 5.0),
+                  spreadRadius: 3.0,
                 ),
-                _crearButton(
-                  Buttons.GitHub,
-                  'Log in with GitHub',
-                  'auth-github',
-                ),
-                SizedBox(
-                  height: 40.0,
-                ),
-                _crearButton(
-                  Buttons.Twitter,
-                  'Log in with Twitter',
-                  'home',
-                ),
-              ],
-            )),
+              ]),
+          child: Column(
+            children: <Widget>[
+              _mensaje('Welcome'),
+              SizedBox(
+                height: 60.0,
+              ),
+              _crearButton(
+                Buttons.GitHub,
+                'Log in with GitHub',
+                'auth-github',
+              ),
+              SizedBox(
+                height: 40.0,
+              ),
+              _crearButton(
+                Buttons.Twitter,
+                'Log in with Twitter',
+                'home',
+              ),
+            ],
+          ),
+        ),
         Expanded(
           child: Text('¿Olvido su contrasena?'),
         ),
@@ -159,21 +162,23 @@ Widget _crearFondo(BuildContext context) {
     height: size.height * 0.4,
     width: double.infinity,
     decoration: BoxDecoration(
-        gradient: LinearGradient(colors: <Color>[
-      Color.fromRGBO(63, 63, 156, 1.0),
-      Color.fromRGBO(90, 70, 178, 1.0)
-    ])),
+      gradient: LinearGradient(
+        colors: <Color>[
+          Color.fromRGBO(07, 43, 54, 1.0),
+          Color.fromRGBO(07, 43, 54, 1.0),
+        ],
+      ),
+    ),
   );
 
   final circulo = Container(
     width: 100.0,
     height: 100.0,
     decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(100.0),
-        color: Color.fromRGBO(255, 255, 255, 0.05)),
+      borderRadius: BorderRadius.circular(100.0),
+      color: Color.fromRGBO(255, 255, 255, 0.05),
+    ),
   );
-
-  final urlImage = 'https://midu.dev/images/tags/github.png';
 
   return Stack(
     children: <Widget>[
@@ -184,31 +189,29 @@ Widget _crearFondo(BuildContext context) {
       Positioned(bottom: 120.0, right: 20.0, child: circulo),
       Positioned(bottom: -50.0, left: -20.0, child: circulo),
       Container(
-        padding: EdgeInsets.only(top: 80.0),
+        // padding: EdgeInsets.only(top: 80.0),
         child: Column(
           children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.circular(100.0),
-              child: Image.network(urlImage, width: 140.0, color: Colors.white,
-                  loadingBuilder: (context, child, progress) {
-                return progress == null
-                    ? child
-                    : CircularProgressIndicator(
-                        strokeWidth: 5,
-                      );
-              }),
-            ),
-            Text(
-              'Fpotify',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 30,
-                letterSpacing: 2,
-              ),
-            ),
-            SizedBox(
-              height: 10.0,
-              width: double.infinity,
+            Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                FadeInImage(
+                  placeholder: MemoryImage(kTransparentImage),
+                  image: AssetImage('assets/adaptive-icon.png'),
+                  //  Colors.white,
+                ),
+                Positioned(
+                  bottom: 60.0,
+                  child: Text(
+                    'Fpotify',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
