@@ -16,14 +16,15 @@ class PreferenciasUsuario {
     this._prefs = await SharedPreferences.getInstance();
   }
 
-  // GET y SET del nombre
-  get username {
-    return _prefs.getString('username') ?? '';
-  }
+  // GET y SET
 
-  set username(String value) {
-    _prefs.setString('username', value);
-  }
+  // set tokenUser(String value) {
+  //   _prefs.setString('tokenUser', value);
+  // }
+
+  // get tokenUser {
+  //   return _prefs.getString('tokenUser') ?? '';
+  // }
 
   // GET y SET de la última página
   get ultimaPagina {

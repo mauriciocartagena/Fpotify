@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/src/providers/auth_github.dart';
-import 'package:translator/translator.dart';
+import 'package:flutter_application_1/src/providers/auth_provider.dart';
+import 'package:flutter_application_1/src/utills/utils.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:translator/translator.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPage createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +56,7 @@ Widget _loginForm(BuildContext context) {
               _crearButton(
                 Buttons.GitHub,
                 'Log in with GitHub',
-                'auth-github',
+                () => {_login(context)},
               ),
               SizedBox(
                 height: 40.0,
@@ -58,16 +64,13 @@ Widget _loginForm(BuildContext context) {
               _crearButton(
                 Buttons.Twitter,
                 'Log in with Twitter',
-                'home',
+                () => {},
               ),
             ],
           ),
         ),
         Expanded(
-          child: TextButton(
-            child: Text('¿Olvido su contrasena?'),
-            onPressed: () => {Oauth2ClientExample().fetchFiles()},
-          ),
+          child: Text('¿Olvido su contrasena?'),
         ),
       ],
     ),
@@ -138,7 +141,7 @@ Widget _crearPassword() {
   );
 }
 
-Widget _crearButton(type, name, nameRouter) {
+Widget _crearButton(type, name, event) {
   final title = name == null ? 'No have title' : name;
 
   return FutureBuilder(
@@ -149,7 +152,7 @@ Widget _crearButton(type, name, nameRouter) {
             child: SignInButton(
               type,
               text: snapshot.data,
-              onPressed: () => Navigator.pushNamed(context, nameRouter),
+              onPressed: event,
             ),
             width: 460,
             height: 50.0,
@@ -227,4 +230,14 @@ Widget _crearFondo(BuildContext context) {
       )
     ],
   );
+}
+
+_login(bloc) async {
+  final userProvider = new AuthProvider();
+  final info = await userProvider.authGitHub();
+  if (info['ok']) {
+    Navigator.pushReplacementNamed(bloc, 'home');
+  } else {
+    mostrarAlerta(bloc, info['mensaje']);
+  }
 }

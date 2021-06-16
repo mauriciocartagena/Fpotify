@@ -1,36 +1,58 @@
 import 'dart:convert';
 
 import 'package:flutter_application_1/src/models/auth_model.dart';
-import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:oauth2_client/github_oauth2_client.dart';
+import 'package:oauth2_client/oauth2_client.dart';
+import 'package:oauth2_client/oauth2_helper.dart';
 
 class AuthProvider {
-  final String _url = 'https://api.github.com';
+  Future<Map<String, dynamic>> authGitHub() async {
+    OAuth2Client hlp = GitHubOAuth2Client(
+      redirectUri: dotenv.env['REDIRECT_URI'],
+      customUriScheme: dotenv.env['CUSTOM_URI_SCHEMA'],
+    );
 
-  final _prefs = new PreferenciasUsuario();
+    OAuth2Helper oauth2Helper = OAuth2Helper(
+      hlp,
+      grantType:
+          OAuth2Helper.AUTHORIZATION_CODE, //default value, can be omitted
+      clientId: dotenv.env['CLIENT_ID'],
+      clientSecret: dotenv.env['CLIENT_SECRET'],
+      scopes: ['user'],
+    );
 
-  Future<Map<String, dynamic>> cargarInformacion(username) async {
-    final url = '$_url/users/$username';
-
-    final resp = await http.get(Uri.parse(url));
+    final resp = await oauth2Helper.get('https://api.github.com/user');
 
     final Map<String, dynamic> decodedData = json.decode(resp.body);
 
-    // print(user[0].message);
     if (!decodedData.containsKey('message')) {
-      _prefs.username = decodedData['login'];
+      // _prefs.tokenUser = decodedData[tknResp.accessToken];
 
       return {'ok': true, 'username': decodedData['login']};
     } else {
       return {'ok': false, 'mensaje': decodedData['message']};
     }
   }
+}
 
-  Future<List<AuthModel>> me(username) async {
-    final url = '$_url/users/$username';
+Future<List<AuthModel>> me() async {
+  OAuth2Client hlp = GitHubOAuth2Client(
+    redirectUri: dotenv.env['REDIRECT_URI'],
+    customUriScheme: dotenv.env['CUSTOM_URI_SCHEMA'],
+  );
 
-    final resp = await http.get(Uri.parse(url));
+  OAuth2Helper oauth2Helper = OAuth2Helper(
+    hlp,
+    grantType: OAuth2Helper.AUTHORIZATION_CODE, //default value, can be omitted
+    clientId: dotenv.env['CLIENT_ID'],
+    clientSecret: dotenv.env['CLIENT_SECRET'],
+    scopes: ['user'],
+  );
 
+  final resp = await oauth2Helper.get('https://api.github.com/user');
+
+  if (resp.statusCode == 200) {
     final Map<String, dynamic> decodedData = json.decode(resp.body);
     final List<AuthModel> user = [];
 
@@ -42,24 +64,7 @@ class AuthProvider {
 
     // print(user[0].login);
     return user;
+  } else {
+    return [];
   }
 }
-
-//   Future<List<AuthModel>> cargarFollow() async {
-//     final url = '$_url/users/mauriciocartagena/following';
-
-//     final resp = await http.get(Uri.parse(url));
-
-//     final Map<String, dynamic> decodedData = json.decode(resp.body);
-//     final List<AuthModel> user = [];
-
-//     if (decodedData == null) return [];
-
-//     final userTemp = AuthModel.fromJson(decodedData);
-
-//     user.add(userTemp);
-
-//     // print(user[0].login);
-//     return user;
-//   }
-// }
