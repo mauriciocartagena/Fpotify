@@ -33,6 +33,8 @@ dependencies:
   rxdart: ^0.27.1
   transparent_image: ^2.0.0
   shared_preferences: ^2.0.6
+  oauth2_client: ^2.2.0
+  flutter_dotenv: ^5.0.0
 
 dev_dependencies:
   flutter_test:
@@ -53,6 +55,7 @@ flutter:
   assets:
     - assets/github.jpeg
     - assets/adaptive-icon.png
+    - .env
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -66,34 +69,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  fonts:
-    - family: GothamBold
-      fonts:
-        - asset: fonts/GothamBold.ttf
-    - family: GothamBoldItalic
-      fonts:
-        - asset: fonts/GothamBoldItalic.ttf   
-    - family: GothamBook
-      fonts:
-        - asset: fonts/GothamBook.ttf  
-    - family: GothamBookItalic
-      fonts:
-        - asset: fonts/GothamBookItalic.ttf 
-    - family: GothamLight
-      fonts:
-        - asset: fonts/GothamLight.ttf
-    - family: GothamLightItalic
-      fonts:
-        - asset: fonts/GothamLightItalic.ttf
-    - family: GothamMedium
-      fonts:
-        - asset: fonts/GothamMedium_1.ttf   
-    - family: GothamMedium
-      fonts:
-        - asset: fonts/GothamMedium.ttf  
-    - family: GothamMediumItalic
-      fonts:
-        - asset: fonts/GothamMediumItalic.ttf        
+  # fonts:
+  #   - family: GothamBold
+  #     fonts:
+  #       - asset: fonts/GothamBold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

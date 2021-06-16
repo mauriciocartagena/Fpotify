@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/providers/auth_github.dart';
 import 'package:translator/translator.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:transparent_image/transparent_image.dart';
@@ -18,6 +19,7 @@ Widget _loginForm(BuildContext context) {
   final size = MediaQuery.of(context).size;
 
   return SimpleDialogOption(
+      child: Expanded(
     child: Column(
       children: <Widget>[
         SafeArea(
@@ -62,11 +64,14 @@ Widget _loginForm(BuildContext context) {
           ),
         ),
         Expanded(
-          child: Text('¿Olvido su contrasena?'),
+          child: TextButton(
+            child: Text('¿Olvido su contrasena?'),
+            onPressed: () => {Oauth2ClientExample().fetchFiles()},
+          ),
         ),
       ],
     ),
-  );
+  ));
 }
 
 Future<String> _tranlator(data) async {
@@ -80,31 +85,31 @@ Future<String> _tranlator(data) async {
 
 Widget _mensaje(title) {
   return FutureBuilder(
-      future: _tranlator(title),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.hasData) {
-          return Container(
-            child: Container(
-              child: SizedBox(
-                width: double.infinity,
-                child: Text(
-                  snapshot.data,
-                  style: TextStyle(
-                    color: Colors.deepPurple,
-                    fontSize: 25.0,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'GothamMediumItalic',
-                  ),
-                  textAlign: TextAlign.left,
+    future: _tranlator(title),
+    builder: (BuildContext context, AsyncSnapshot snapshot) {
+      if (snapshot.hasData) {
+        return Container(
+          child: Container(
+            child: SizedBox(
+              width: double.infinity,
+              child: Text(
+                snapshot.data,
+                style: TextStyle(
+                  color: Colors.deepPurple,
+                  fontSize: 25.0,
+                  fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.left,
               ),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 25),
-          );
-        } else {
-          return CircularProgressIndicator();
-        }
-      });
+          ),
+          padding: EdgeInsets.symmetric(horizontal: 25),
+        );
+      } else {
+        return CircularProgressIndicator();
+      }
+    },
+  );
 }
 
 Widget _crearEmail() {
@@ -189,7 +194,7 @@ Widget _crearFondo(BuildContext context) {
       Positioned(bottom: 120.0, right: 20.0, child: circulo),
       Positioned(bottom: -50.0, left: -20.0, child: circulo),
       Container(
-        padding: EdgeInsets.only(top: 25.0),
+        padding: EdgeInsets.only(top: 23.0),
         child: Column(
           children: <Widget>[
             Stack(
@@ -204,12 +209,11 @@ Widget _crearFondo(BuildContext context) {
                 Container(
                   padding: EdgeInsets.only(top: 205.0),
                   child: Positioned(
-                    top: 40.0,
                     child: Text(
                       'Fpotify',
                       style: TextStyle(
                         color: Colors.white,
-                        fontFamily: 'GothamMediumItalic',
+                        // fontFamily: 'GothamMediumItalic',
                         fontSize: 30,
                         letterSpacing: 2,
                       ),
