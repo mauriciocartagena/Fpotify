@@ -21,7 +21,10 @@ class _LoginPage extends State<LoginPage> {
     prefs.ultimaPagina = _LoginPage.routeName;
     return Scaffold(
       body: Stack(
-        children: <Widget>[_crearFondo(context), _loginForm(context)],
+        children: <Widget>[
+          _crearFondo(context),
+          _loginForm(context),
+        ],
       ),
     );
   }
@@ -31,7 +34,6 @@ Widget _loginForm(BuildContext context) {
   final size = MediaQuery.of(context).size;
 
   return SimpleDialogOption(
-      child: Expanded(
     child: Column(
       children: <Widget>[
         SafeArea(
@@ -44,16 +46,17 @@ Widget _loginForm(BuildContext context) {
           width: size.width * 0.85,
           padding: EdgeInsets.symmetric(vertical: 40.0),
           decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5.0),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 3.0,
-                  offset: Offset(0.0, 5.0),
-                  spreadRadius: 3.0,
-                ),
-              ]),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(5.0),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 3.0,
+                offset: Offset(0.0, 5.0),
+                spreadRadius: 3.0,
+              ),
+            ],
+          ),
           child: Column(
             children: <Widget>[
               _mensaje('Welcome'),
@@ -81,7 +84,7 @@ Widget _loginForm(BuildContext context) {
         ),
       ],
     ),
-  ));
+  );
 }
 
 Future<String> _tranlator(data) async {
@@ -196,6 +199,7 @@ Widget _crearFondo(BuildContext context) {
   );
 
   return Stack(
+    // EdgeInsets.only(top: 205.0)
     children: <Widget>[
       fondoMorado,
       Positioned(top: 90.0, left: 30.0, child: circulo),
@@ -218,18 +222,16 @@ Widget _crearFondo(BuildContext context) {
                 ),
                 Container(
                   padding: EdgeInsets.only(top: 205.0),
-                  child: Positioned(
-                    child: Text(
-                      'Fpotify',
-                      style: TextStyle(
-                        color: Colors.white,
-                        // fontFamily: 'GothamMediumItalic',
-                        fontSize: 30,
-                        letterSpacing: 2,
-                      ),
+                  child: Text(
+                    'Fpotify',
+                    style: TextStyle(
+                      color: Colors.white,
+                      // fontFamily: 'GothamMediumItalic',
+                      fontSize: 30,
+                      letterSpacing: 2,
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ],
