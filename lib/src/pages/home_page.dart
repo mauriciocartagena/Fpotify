@@ -33,11 +33,12 @@ Widget _cargarUser(BuildContext context) {
     future: me(),
     builder: (BuildContext context, AsyncSnapshot<List<AuthModel>> snapshot) {
       if (snapshot.hasData) {
-        return CustomScrollView(slivers: <Widget>[
-          SliverAppBar(
+        return CustomScrollView(
+          slivers: <Widget>[
+            SliverAppBar(
               brightness: Brightness.light,
               backgroundColor: Colors.white,
-              expandedHeight: 200,
+              expandedHeight: 227,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 background: Container(
@@ -61,11 +62,17 @@ Widget _cargarUser(BuildContext context) {
                         snapshot.data[0].login,
                         style: TextStyle(fontSize: 20),
                       ),
+                      TextButton(
+                        onPressed: () => Navigator.pushNamed(context, 'login'),
+                        child: Text('Logout'),
+                      )
                     ],
                   ),
                 ),
-              ))
-        ]);
+              ),
+            )
+          ],
+        );
       } else {
         return Center(child: CircularProgressIndicator());
       }

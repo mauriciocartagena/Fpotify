@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:flutter_application_1/src/providers/auth_provider.dart';
 import 'package:flutter_application_1/src/utills/utils.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -11,8 +12,13 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
+  static final String routeName = 'login';
+
+  final prefs = new PreferenciasUsuario();
+
   @override
   Widget build(BuildContext context) {
+    prefs.ultimaPagina = _LoginPage.routeName;
     return Scaffold(
       body: Stack(
         children: <Widget>[_crearFondo(context), _loginForm(context)],
@@ -29,13 +35,14 @@ Widget _loginForm(BuildContext context) {
     child: Column(
       children: <Widget>[
         SafeArea(
-            child: Container(
-          height: 180.0,
-        )),
+          child: Container(
+            height: 180.0,
+          ),
+        ),
         Container(
           margin: EdgeInsets.symmetric(vertical: 50.0),
           width: size.width * 0.85,
-          padding: EdgeInsets.symmetric(vertical: 50.0),
+          padding: EdgeInsets.symmetric(vertical: 40.0),
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(5.0),
@@ -51,7 +58,7 @@ Widget _loginForm(BuildContext context) {
             children: <Widget>[
               _mensaje('Welcome'),
               SizedBox(
-                height: 60.0,
+                height: 35.0,
               ),
               _crearButton(
                 Buttons.GitHub,
@@ -94,12 +101,12 @@ Widget _mensaje(title) {
         return Container(
           child: Container(
             child: SizedBox(
-              width: double.infinity,
+              // width: double.infinity,
               child: Text(
                 snapshot.data,
                 style: TextStyle(
-                  color: Colors.deepPurple,
-                  fontSize: 25.0,
+                  color: Color.fromRGBO(7, 43, 54, 1),
+                  fontSize: 28.0,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.left,
