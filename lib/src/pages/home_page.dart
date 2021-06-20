@@ -8,8 +8,6 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-final authProvider = AuthProvider();
-
 class _HomePageState extends State<HomePage> {
   static final String routeName = 'home';
 

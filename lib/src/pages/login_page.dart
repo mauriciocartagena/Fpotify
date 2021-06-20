@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:flutter_application_1/src/providers/auth_provider.dart';
 import 'package:flutter_application_1/src/utills/utils.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:translator/translator.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -59,28 +58,23 @@ Widget _loginForm(BuildContext context) {
           ),
           child: Column(
             children: <Widget>[
-              _mensaje('Welcome'),
+              _mensaje('To continue, log into.'),
               SizedBox(
                 height: 35.0,
               ),
               _crearButton(
-                Buttons.GitHub,
-                'Log in with GitHub',
-                () => {_login(context)},
+                'Log in',
+                Icons.login,
+                () => _authenticateSpotify(context),
               ),
               SizedBox(
-                height: 40.0,
-              ),
-              _crearButton(
-                Buttons.Twitter,
-                'Log in with Twitter',
-                () => {},
+                height: 17.0,
               ),
             ],
           ),
         ),
         Expanded(
-          child: Text('¿Olvido su contrasena?'),
+          child: Text('¿Olvitaste tu contraseña?'),
         ),
       ],
     ),
@@ -108,8 +102,8 @@ Widget _mensaje(title) {
               child: Text(
                 snapshot.data,
                 style: TextStyle(
-                  color: Color.fromRGBO(7, 43, 54, 1),
-                  fontSize: 28.0,
+                  color: Colors.black,
+                  fontSize: 16.5,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.left,
@@ -151,7 +145,7 @@ Widget _crearPassword() {
   );
 }
 
-Widget _crearButton(type, name, event) {
+Widget _crearButton(name, icon, event) {
   final title = name == null ? 'No have title' : name;
 
   return FutureBuilder(
@@ -159,9 +153,20 @@ Widget _crearButton(type, name, event) {
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return Container(
-            child: SignInButton(
-              type,
-              text: snapshot.data,
+            child: ElevatedButton.icon(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                    Color.fromRGBO(30, 120, 47, 1)),
+                overlayColor: MaterialStateProperty.resolveWith(
+                  (states) {
+                    return states.contains(MaterialState.pressed)
+                        ? Color.fromRGBO(36, 145, 55, 1)
+                        : null;
+                  },
+                ),
+              ),
+              label: Text(snapshot.data),
+              icon: Icon(icon),
               onPressed: event,
             ),
             width: 460,
@@ -182,8 +187,8 @@ Widget _crearFondo(BuildContext context) {
     decoration: BoxDecoration(
       gradient: LinearGradient(
         colors: <Color>[
-          Color.fromRGBO(07, 43, 54, 1.0),
-          Color.fromRGBO(07, 43, 54, 1.0),
+          Color.fromRGBO(10, 32, 41, 1.0),
+          Color.fromRGBO(10, 32, 41, 1.0),
         ],
       ),
     ),
@@ -221,7 +226,7 @@ Widget _crearFondo(BuildContext context) {
                   image: AssetImage('assets/adaptive-icon.png'),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 205.0),
+                  padding: EdgeInsets.only(top: 155.0),
                   child: Text(
                     'Fpotify',
                     style: TextStyle(
@@ -241,12 +246,13 @@ Widget _crearFondo(BuildContext context) {
   );
 }
 
-_login(bloc) async {
-  final userProvider = new AuthProvider();
-  final info = await userProvider.authGitHub();
-  if (info['ok']) {
+_authenticateSpotify(bloc) async {
+  final resp = await authenticate();
+  // print(resp['ok']);
+
+  if (resp['ok']) {
     Navigator.pushReplacementNamed(bloc, 'home');
   } else {
-    mostrarAlerta(bloc, info['mensaje']);
+    mostrarAlerta(bloc, resp['error']);
   }
 }
