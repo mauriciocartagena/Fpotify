@@ -248,9 +248,10 @@ Widget _crearFondo(BuildContext context) {
 
 _authenticateSpotify(bloc) async {
   final resp = await authenticate();
-  // print(resp['ok']);
+  final prefs = new PreferenciasUsuario(); // print(resp['ok']);
 
   if (resp['ok']) {
+    prefs.tokenUser = resp['accessToken'];
     Navigator.pushReplacementNamed(bloc, 'home');
   } else {
     mostrarAlerta(bloc, resp['error']);

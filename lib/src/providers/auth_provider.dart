@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter_application_1/src/models/auth_model.dart';
+import 'package:flutter_application_1/src/models/auth_model_me.dart';
 import 'package:flutter_application_1/src/models/auth_model_spotify.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:oauth2_client/github_oauth2_client.dart';
 import 'package:oauth2_client/google_oauth2_client.dart';
-import 'package:oauth2_client/oauth2_client.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
 
 Future<Map<String, dynamic>> authenticate() async {
@@ -25,14 +23,6 @@ Future<Map<String, dynamic>> authenticate() async {
 
   final token = [];
 
-  final dataUser =
-      await http.get(Uri.parse('https://api.spotify.com/v1/me'), headers: {
-    'Authorization':
-        'Bearer BQCNbc3MMEWCyrFBRwnsehOUhDnKsS5fBFc_BXl5qiB6fXCHg7fC1rB_qff3WMZs6UCk20W5B_KWWV39LhU3hTBLFyNg_IDCXWby5OmO3mR0cepjuPoexdyNiw6bNqPdk_jdwm9Mu_ugiZJOn15lH9UEJOfccPkWhk_J6A',
-  });
-
-  print(dataUser.body);
-
   await auth2helper.getToken().then(
         (value) => token.add(
           {'AccessToken': value.accessToken},
@@ -45,8 +35,6 @@ Future<Map<String, dynamic>> authenticate() async {
 
   user.add(userTemp);
 
-  print(user[0].accessToken);
-
   if (user.isNotEmpty) {
     return {'ok': true, 'accessToken': user[0].accessToken};
   } else {
@@ -54,33 +42,24 @@ Future<Map<String, dynamic>> authenticate() async {
   }
 }
 
-Future<List<AuthModel>> me() async {
-  OAuth2Client hlp = GitHubOAuth2Client(
-    redirectUri: dotenv.env['REDIRECT_URI'],
-    customUriScheme: dotenv.env['CUSTOM_URI_SCHEMA'],
-  );
+Future<List<AuthModelMe>> me(String token) async {
+  final me =
+      await http.get(Uri.parse('https://api.spotify.com/v1/me'), headers: {
+    'Authorization': 'Bearer $token',
+  });
 
-  OAuth2Helper oauth2Helper = OAuth2Helper(
-    hlp,
-    grantType: OAuth2Helper.AUTHORIZATION_CODE, //default value, can be omitted
-    clientId: dotenv.env['CLIENT_ID'],
-    clientSecret: dotenv.env['CLIENT_SECRET'],
-    scopes: ['user'],
-  );
+  if (me.statusCode == 200) {
+    final Map<String, dynamic> decodeData = jsonDecode(me.body);
 
-  final resp = await oauth2Helper.get('https://api.github.com/user');
+    final List<AuthModelMe> user = [];
 
-  if (resp.statusCode == 200) {
-    final Map<String, dynamic> decodedData = json.decode(resp.body);
-    final List<AuthModel> user = [];
+    if (decodeData == null) return [];
 
-    if (decodedData == null) return [];
+    final userMe = AuthModelMe.fromJson(decodeData);
 
-    final userTemp = AuthModel.fromJson(decodedData);
+    user.add(userMe);
+    print(user);
 
-    user.add(userTemp);
-
-    // print(user[0].login);
     return user;
   } else {
     return [];

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/src/models/auth_model.dart';
+import 'package:flutter_application_1/src/models/auth_model_me.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:flutter_application_1/src/providers/auth_provider.dart';
 
@@ -20,16 +20,16 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Container(
         color: Colors.white,
-        child: _cargarUser(context),
+        child: _cargarUser(context, prefs.tokenUser),
       ),
     );
   }
 }
 
-Widget _cargarUser(BuildContext context) {
+Widget _cargarUser(BuildContext context, token) {
   return FutureBuilder(
-    future: me(),
-    builder: (BuildContext context, AsyncSnapshot<List<AuthModel>> snapshot) {
+    future: me(token),
+    builder: (BuildContext context, AsyncSnapshot<List<AuthModelMe>> snapshot) {
       if (snapshot.hasData) {
         return CustomScrollView(
           slivers: <Widget>[
@@ -50,14 +50,14 @@ Widget _cargarUser(BuildContext context) {
                           radius: 50.0,
                           backgroundColor: Colors.transparent,
                           backgroundImage:
-                              NetworkImage(snapshot.data[0].avatarUrl),
+                              NetworkImage(snapshot.data[0].images[0].url),
                         ),
                       ),
                       SizedBox(
                         height: 20,
                       ),
                       Text(
-                        snapshot.data[0].login,
+                        snapshot.data[0].displayName,
                         style: TextStyle(fontSize: 20),
                       ),
                       TextButton(

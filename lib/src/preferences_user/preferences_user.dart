@@ -18,13 +18,13 @@ class PreferenciasUsuario {
 
   // GET y SET
 
-  // set tokenUser(String value) {
-  //   _prefs.setString('tokenUser', value);
-  // }
+  set tokenUser(String value) {
+    _prefs.setString('tokenUser', value);
+  }
 
-  // get tokenUser {
-  //   return _prefs.getString('tokenUser') ?? '';
-  // }
+  get tokenUser {
+    return _prefs.getString('tokenUser') ?? '';
+  }
 
   // GET y SET de la última página
   get ultimaPagina {
