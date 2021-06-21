@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/pages/home_page.dart';
 import 'package:flutter_application_1/src/pages/login_page.dart';
 import 'package:flutter_application_1/src/bloc/provider.dart';
+import 'package:flutter_application_1/src/pages/play_list/listview_page.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         routes: {
           'login': (BuildContext context) => LoginPage(),
           'home': (BuildContext context) => HomePage(),
+          'list': (BuildContext context) => ListaPage(),
         },
       ),
     );

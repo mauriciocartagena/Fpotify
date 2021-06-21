@@ -58,7 +58,6 @@ Future<List<AuthModelMe>> me(String token) async {
     final userMe = AuthModelMe.fromJson(decodeData);
 
     user.add(userMe);
-    print(user);
 
     return user;
   } else {

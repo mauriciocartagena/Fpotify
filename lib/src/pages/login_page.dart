@@ -252,7 +252,7 @@ _authenticateSpotify(bloc) async {
 
   if (resp['ok']) {
     prefs.tokenUser = resp['accessToken'];
-    Navigator.pushReplacementNamed(bloc, 'home');
+    Navigator.pushReplacementNamed(bloc, 'list');
   } else {
     mostrarAlerta(bloc, resp['error']);
   }

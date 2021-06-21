@@ -55,6 +55,7 @@ flutter:
   assets:
     - assets/github.jpeg
     - assets/adaptive-icon.png
+    - assets/loading.gif
     - .env
   #   - images/a_dot_ham.jpeg
 
