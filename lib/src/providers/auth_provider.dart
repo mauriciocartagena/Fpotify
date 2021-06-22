@@ -19,6 +19,20 @@ Future<Map<String, dynamic>> authenticate() async {
     grantType: OAuth2Helper.AUTHORIZATION_CODE,
     clientId: dotenv.env['CLIENT_ID_SPOTIFY'],
     clientSecret: dotenv.env['SECRET_ID'],
+    scopes: [
+      'playlist-read-private',
+      'playlist-read-collaborative',
+      'playlist-modify-public',
+      'playlist-modify-private',
+      'user-read-recently-played',
+      'user-top-read',
+      'user-read-playback-position',
+      'user-read-playback-state',
+      'user-modify-playback-state',
+      'user-read-currently-playing',
+      'user-read-email',
+      'user-read-private'
+    ],
   );
 
   final token = [];
