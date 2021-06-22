@@ -8,16 +8,45 @@ class ListaPage extends StatefulWidget {
 }
 
 class _ListaPageState extends State<ListaPage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('List'),
+        title: Text('Your Playlists'),
       ),
       body: Stack(
         children: <Widget>[
           _crearLista(context),
         ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.library_music),
+            label: 'Music Library',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          )
+        ],
+        currentIndex: _selectedIndex,
+        backgroundColor: Color.fromRGBO(26, 26, 29, 1),
+        selectedItemColor: Colors.white,
+        unselectedItemColor: Color.fromRGBO(157, 158, 163, 1),
+        onTap: _onItemTapped,
       ),
     );
   }
