@@ -11,13 +11,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
-  static final String routeName = 'login';
-
   final prefs = new PreferenciasUsuario();
 
   @override
   Widget build(BuildContext context) {
-    prefs.ultimaPagina = _LoginPage.routeName;
     return Scaffold(
       body: Stack(
         children: <Widget>[
@@ -252,7 +249,7 @@ _authenticateSpotify(bloc) async {
 
   if (resp['ok']) {
     prefs.tokenUser = resp['accessToken'];
-    Navigator.pushReplacementNamed(bloc, 'list');
+    Navigator.pushReplacementNamed(bloc, 'index');
   } else {
     mostrarAlerta(bloc, resp['error']);
   }

@@ -3,19 +3,19 @@ import 'package:flutter_application_1/src/models/auth_model_me.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:flutter_application_1/src/providers/auth_provider.dart';
 
-class HomePage extends StatefulWidget {
+class AccountPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _AccountPageState createState() => _AccountPageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  static final String routeName = 'home';
+class _AccountPageState extends State<AccountPage> {
+  static final String routeName = 'account';
 
   final prefs = new PreferenciasUsuario();
 
   @override
   Widget build(BuildContext context) {
-    prefs.ultimaPagina = _HomePageState.routeName;
+    prefs.ultimaPagina = _AccountPageState.routeName;
 
     return Scaffold(
       body: Container(
