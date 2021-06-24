@@ -20,15 +20,15 @@ class _AccountPageState extends State<AccountPage> {
     return Scaffold(
       body: Container(
         color: Colors.white,
-        child: _cargarUser(context, prefs.tokenUser),
+        child: _cargarUser(context),
       ),
     );
   }
 }
 
-Widget _cargarUser(BuildContext context, token) {
+Widget _cargarUser(BuildContext context) {
   return FutureBuilder(
-    future: me(token),
+    future: me(),
     builder: (BuildContext context, AsyncSnapshot<List<AuthModelMe>> snapshot) {
       if (snapshot.hasData) {
         return CustomScrollView(

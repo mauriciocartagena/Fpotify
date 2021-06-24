@@ -5,14 +5,12 @@ import 'package:flutter_application_1/src/preferences_user/preferences_user.dart
 import 'package:http/http.dart' as http;
 
 Future<List<AuthModelPLayList>> playList() async {
-  final prefs = PreferenciasUsuario();
-
-  String token = prefs.tokenUser;
+  final prefs = new PreferenciasUsuario();
 
   final url = 'https://api.spotify.com/v1/me/playlists';
 
-  final resp = await http
-      .get(Uri.parse(url), headers: {'Authorization': ' Bearer $token'});
+  final resp = await http.get(Uri.parse(url),
+      headers: {'Authorization': ' Bearer ${prefs.tokenUser}'});
 
   if (resp.statusCode == 200) {
     final Map<String, dynamic> decodeData = jsonDecode(resp.body);

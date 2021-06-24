@@ -4,6 +4,7 @@ import 'package:flutter_application_1/src/pages/home/home_page.dart';
 import 'package:flutter_application_1/src/pages/play_list/listview_page.dart';
 import 'package:flutter_application_1/src/pages/search/search.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
+import 'package:flutter_application_1/src/providers/auth_provider.dart';
 
 class Index extends StatefulWidget {
   @override
@@ -26,6 +27,7 @@ class _IndexState extends State<Index> {
   void initState() {
     super.initState();
 
+    authenticate();
     String lastPage = prefs.ultimaPagina;
 
     _selectedIndex = _routers[lastPage];
