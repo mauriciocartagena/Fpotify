@@ -16,17 +16,24 @@ class _HomePageState extends State<HomePage> {
     prefs.ultimaPagina = _HomePageState.routeName;
 
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 100,
-            ),
-            Text('Home Page')
-          ],
+      backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromRGBO(11, 14, 17, 0.0),
+        brightness: Brightness.dark,
+        title: Text(
+          'Home',
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ),
+      body: Center(
+          child: Text(
+        'Home Page',
+        style: TextStyle(color: Colors.white),
+      )),
     );
   }
 }

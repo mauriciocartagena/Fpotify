@@ -137,7 +137,10 @@ Widget _cargarUser(BuildContext context) {
           ],
         );
       } else {
-        return Center(child: CircularProgressIndicator());
+        return Center(
+            child: CircularProgressIndicator(
+          color: Color.fromRGBO(43, 175, 67, 1),
+        ));
       }
     },
   );

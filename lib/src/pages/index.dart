@@ -13,6 +13,9 @@ class Index extends StatefulWidget {
 
 class _IndexState extends State<Index> {
   int _selectedIndex = 0;
+  login() async {
+    await authenticate();
+  }
 
   final prefs = new PreferenciasUsuario();
 
@@ -27,7 +30,7 @@ class _IndexState extends State<Index> {
   void initState() {
     super.initState();
 
-    authLogin();
+    login();
 
     String lastPage = prefs.ultimaPagina;
 
@@ -78,9 +81,5 @@ class _IndexState extends State<Index> {
         onTap: _onItemTapped,
       ),
     );
-  }
-
-  authLogin() async {
-    await authenticate();
   }
 }

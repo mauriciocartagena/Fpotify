@@ -14,14 +14,24 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     prefs.ultimaPagina = _SearchPageState.routeName;
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          SizedBox(
-            height: 100,
+      backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromRGBO(11, 14, 17, 0.0),
+        brightness: Brightness.dark,
+        title: Text(
+          'Search',
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
           ),
-          Text('Search')
-        ],
+        ),
       ),
+      body: Center(
+          child: Text(
+        'Search Page',
+        style: TextStyle(color: Colors.white),
+      )),
     );
   }
 }
