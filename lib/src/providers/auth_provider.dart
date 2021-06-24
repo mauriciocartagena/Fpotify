@@ -23,6 +23,12 @@ Future<Map<String, dynamic>> authenticate() async {
     clientId: dotenv.env['CLIENT_ID_SPOTIFY'],
     clientSecret: dotenv.env['SECRET_ID'],
     scopes: [
+      'user-follow-read',
+      'user-follow-modify',
+      'user-modify-playback-state',
+      'user-top-read',
+      'user-library-read',
+      'user-read-playback-position',
       'playlist-read-private',
       'playlist-read-collaborative',
       'playlist-modify-public',

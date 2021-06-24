@@ -83,7 +83,7 @@ class _ListaPageState extends State<ListaPage> {
         } else {
           return Center(
               child: CircularProgressIndicator(
-            color: Color.fromRGBO(43, 175, 67, 1),
+            color: Color.fromRGBO(30, 215, 96, 1),
           ));
         }
       },

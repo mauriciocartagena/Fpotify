@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/models/auth_model_me.dart';
+import 'package:flutter_application_1/src/models/follower_model.dart';
+import 'package:flutter_application_1/src/models/play_list_model.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:flutter_application_1/src/providers/auth_provider.dart';
+import 'package:flutter_application_1/src/providers/play_list_provider.dart';
+import 'package:flutter_application_1/src/providers/user_followers.dart';
 
 class AccountPage extends StatefulWidget {
   @override
@@ -18,7 +22,7 @@ class _AccountPageState extends State<AccountPage> {
     prefs.ultimaPagina = _AccountPageState.routeName;
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
+      backgroundColor: Color.fromRGBO(25, 20, 20, 1.0),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Color.fromRGBO(11, 14, 17, 0.0),
@@ -49,7 +53,7 @@ Widget _cargarUser(BuildContext context) {
               automaticallyImplyLeading: false,
               brightness: Brightness.light,
               backgroundColor: Colors.transparent,
-              expandedHeight: 300,
+              expandedHeight: 345,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 background: Container(
@@ -96,35 +100,14 @@ Widget _cargarUser(BuildContext context) {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
-                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                child: Text(
-                                  'PLAYLISTS',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                  child: _playList(context)),
                               Padding(
-                                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                child: Text(
-                                  'FOLLOWERS',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
+                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: _followers(context)),
                               Padding(
-                                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                child: Text(
-                                  'FOLLOWING',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
+                                  padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: _following(context)),
                             ],
                           ),
                         ],
@@ -139,8 +122,169 @@ Widget _cargarUser(BuildContext context) {
       } else {
         return Center(
             child: CircularProgressIndicator(
-          color: Color.fromRGBO(43, 175, 67, 1),
+          color: Color.fromRGBO(30, 215, 96, 1),
         ));
+      }
+    },
+  );
+}
+
+Widget _playList(BuildContext context) {
+  return FutureBuilder(
+    future: playList(),
+    builder: (BuildContext context,
+        AsyncSnapshot<List<AuthModelPLayList>> snapshot) {
+      if (snapshot.hasData) {
+        return Column(
+          children: <Widget>[
+            Text(
+              'PLAYLIST',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              snapshot.data[0].total.toString(),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      } else {
+        return Column(
+          children: <Widget>[
+            Text(
+              'PLAYLIST',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              '0',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      }
+    },
+  );
+}
+
+Widget _followers(BuildContext context) {
+  return FutureBuilder(
+    future: me(),
+    builder: (BuildContext context, AsyncSnapshot<List<AuthModelMe>> snapshot) {
+      if (snapshot.hasData) {
+        return Column(
+          children: <Widget>[
+            Text(
+              'FOLLOWERS',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              snapshot.data[0].followers.total.toString(),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      } else {
+        return Column(
+          children: <Widget>[
+            Text(
+              'FOLLOWERS',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              '0',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      }
+    },
+  );
+}
+
+Widget _following(BuildContext context) {
+  return FutureBuilder(
+    future: getFollowers(),
+    builder:
+        (BuildContext context, AsyncSnapshot<List<FollowerModel>> snapshot) {
+      if (snapshot.hasData) {
+        return Column(
+          children: <Widget>[
+            Text(
+              'FOLLOWING',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              snapshot.data[0].artists.total.toString(),
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
+      } else {
+        return Column(
+          children: <Widget>[
+            Text(
+              'FOLLOWING',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              '0',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ],
+        );
       }
     },
   );
