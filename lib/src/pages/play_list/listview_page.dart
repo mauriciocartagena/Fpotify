@@ -16,8 +16,18 @@ class _ListaPageState extends State<ListaPage> {
   Widget build(BuildContext context) {
     prefs.ultimaPagina = _ListaPageState.routeName;
     return Scaffold(
+      backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
       appBar: AppBar(
-        title: Text('Your Playlists'),
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromRGBO(11, 14, 17, 0.0),
+        brightness: Brightness.dark,
+        title: Text(
+          'Your Playlists',
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
       body: Stack(
         children: <Widget>[
@@ -40,14 +50,32 @@ class _ListaPageState extends State<ListaPage> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.all(10.0),
-                    child: FadeInImage(
-                      image: NetworkImage(
-                        snapshot.data[0].items[index].images[0].url,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: FadeInImage(
+                        fit: BoxFit.cover,
+                        placeholder: AssetImage('assets/loading.gif'),
+                        image: NetworkImage(
+                          snapshot.data[0].items[index].images[0].url,
+                        ),
                       ),
-                      placeholder: AssetImage('assets/loading.gif'),
                     ),
                   ),
-                  Text(snapshot.data[0].items[index].name),
+                  Text(
+                    snapshot.data[0].items[index].name,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    "Creado por : ${snapshot.data[0].items[index].owner.displayName}",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15.0,
+                    ),
+                  )
                 ],
               );
             },

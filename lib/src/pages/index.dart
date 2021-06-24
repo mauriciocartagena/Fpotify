@@ -27,7 +27,8 @@ class _IndexState extends State<Index> {
   void initState() {
     super.initState();
 
-    authenticate();
+    authLogin();
+
     String lastPage = prefs.ultimaPagina;
 
     _selectedIndex = _routers[lastPage];
@@ -77,5 +78,9 @@ class _IndexState extends State<Index> {
         onTap: _onItemTapped,
       ),
     );
+  }
+
+  authLogin() async {
+    await authenticate();
   }
 }

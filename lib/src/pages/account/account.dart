@@ -18,8 +18,20 @@ class _AccountPageState extends State<AccountPage> {
     prefs.ultimaPagina = _AccountPageState.routeName;
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Color.fromRGBO(11, 14, 17, 0.0),
+        brightness: Brightness.dark,
+        title: Text(
+          'Cuenta',
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
       body: Container(
-        color: Colors.white,
         child: _cargarUser(context),
       ),
     );
@@ -34,9 +46,10 @@ Widget _cargarUser(BuildContext context) {
         return CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
+              automaticallyImplyLeading: false,
               brightness: Brightness.light,
-              backgroundColor: Colors.white,
-              expandedHeight: 227,
+              backgroundColor: Colors.transparent,
+              expandedHeight: 300,
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.pin,
                 background: Container(
@@ -58,17 +71,69 @@ Widget _cargarUser(BuildContext context) {
                       ),
                       Text(
                         snapshot.data[0].displayName,
-                        style: TextStyle(fontSize: 20),
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                       TextButton(
                         onPressed: () => Navigator.pushNamed(context, 'login'),
-                        child: Text('Logout'),
+                        child: Text(
+                          'Logout',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 45,
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                                child: Text(
+                                  'PLAYLISTS',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: Text(
+                                  'FOLLOWERS',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: Text(
+                                  'FOLLOWING',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       )
                     ],
                   ),
                 ),
               ),
-            )
+            ),
           ],
         );
       } else {
