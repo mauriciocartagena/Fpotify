@@ -7,6 +7,7 @@ import 'package:flutter_application_1/src/bloc/provider.dart';
 import 'package:flutter_application_1/src/pages/play_list/listview_page.dart';
 import 'package:flutter_application_1/src/pages/search/search.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
+import 'package:flutter_application_1/src/providers/auth_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
@@ -14,6 +15,12 @@ void main() async {
   final prefs = new PreferenciasUsuario();
   await dotenv.load(fileName: ".env");
   await prefs.initPrefs();
+
+  if (prefs.tokenUser != '') {
+    await updateToken();
+  } else {
+    await authenticate();
+  }
   runApp(MyApp());
 }
 
@@ -26,7 +33,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fpotify',
-        initialRoute: prefs.tokenUser != null ? 'index' : 'login',
+        initialRoute: prefs.tokenUser != '' ? 'index' : 'login',
         routes: {
           'login': (BuildContext context) => LoginPage(),
           'index': (BuildContext context) => Index(),

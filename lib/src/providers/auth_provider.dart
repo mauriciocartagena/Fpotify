@@ -48,7 +48,10 @@ Future<Map<String, dynamic>> authenticate() async {
 
   await auth2helper.getToken().then(
         (value) => token.add(
-          {'AccessToken': value.accessToken},
+          {
+            'AccessToken': value.accessToken,
+            'RefreshToken': value.refreshToken
+          },
         ),
       );
 
@@ -59,6 +62,9 @@ Future<Map<String, dynamic>> authenticate() async {
   user.add(userTemp);
 
   prefs.tokenUser = user[0].accessToken;
+  prefs.tokenRefresh = user[0].refreshToken;
+
+  // print(user[0].accessToken);
 
   if (user.isNotEmpty) {
     return {'ok': true, 'accessToken': true};
@@ -72,7 +78,9 @@ Future<List<AuthModelMe>> me() async {
 
   final me = await http.get(Uri.parse('https://api.spotify.com/v1/me'),
       headers: {'Authorization': 'Bearer ${prefs.tokenUser}'});
-
+  if (me.statusCode == 401) {
+    updateToken();
+  }
   if (me.statusCode == 200) {
     final Map<String, dynamic> decodeData = jsonDecode(me.body);
 
@@ -87,5 +95,33 @@ Future<List<AuthModelMe>> me() async {
     return user;
   } else {
     return [];
+  }
+}
+
+updateToken() async {
+  final prefs = PreferenciasUsuario();
+
+  String basicAuth = 'Basic ' +
+      base64Encode(
+        utf8.encode(
+            '${dotenv.env['CLIENT_ID_SPOTIFY']}:${dotenv.env['SECRET_ID']}'),
+      );
+
+  final url = await http
+      .post(Uri.parse('https://accounts.spotify.com/api/token'), body: {
+    'grant_type': 'refresh_token',
+    'refresh_token': prefs.tokenRefresh
+  }, headers: {
+    'Authorization': basicAuth
+  });
+
+  // print(url.body);
+
+  if (url.statusCode == 200) {
+    final Map<String, dynamic> decodeData = jsonDecode(url.body);
+
+    if (decodeData == null) return [];
+    prefs.tokenUser = decodeData['access_token'];
+    prefs.tokenRefresh = decodeData['refresh_token'];
   }
 }

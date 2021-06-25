@@ -9,16 +9,20 @@ String authModelSpotifyToJson(AuthModelSpotify data) =>
 class AuthModelSpotify {
   AuthModelSpotify({
     this.accessToken,
+    this.refreshToken,
   });
 
   String accessToken;
+  String refreshToken;
 
   factory AuthModelSpotify.fromJson(Map<String, dynamic> json) =>
       AuthModelSpotify(
         accessToken: json["AccessToken"],
+        refreshToken: json["RefreshToken"],
       );
 
   Map<String, dynamic> toJson() => {
         "AccessToken": accessToken,
+        "RefreshToken": refreshToken,
       };
 }

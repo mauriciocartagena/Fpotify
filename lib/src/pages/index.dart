@@ -4,7 +4,6 @@ import 'package:flutter_application_1/src/pages/home/home_page.dart';
 import 'package:flutter_application_1/src/pages/play_list/listview_page.dart';
 import 'package:flutter_application_1/src/pages/search/search.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
-import 'package:flutter_application_1/src/providers/auth_provider.dart';
 
 class Index extends StatefulWidget {
   @override
@@ -13,10 +12,6 @@ class Index extends StatefulWidget {
 
 class _IndexState extends State<Index> {
   int _selectedIndex = 0;
-  login() async {
-    await authenticate();
-  }
-
   final prefs = new PreferenciasUsuario();
 
   Map<String, int> _routers = {
@@ -29,8 +24,6 @@ class _IndexState extends State<Index> {
   @override
   void initState() {
     super.initState();
-
-    login();
 
     String lastPage = prefs.ultimaPagina;
 

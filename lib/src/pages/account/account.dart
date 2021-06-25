@@ -82,7 +82,7 @@ Widget _cargarUser(BuildContext context) {
                         ),
                       ),
                       TextButton(
-                        onPressed: () => Navigator.pushNamed(context, 'login'),
+                        onPressed: () => _logout(context),
                         child: Text(
                           'Logout',
                           style: TextStyle(
@@ -127,6 +127,14 @@ Widget _cargarUser(BuildContext context) {
       }
     },
   );
+}
+
+_logout(BuildContext context) {
+  final prefs = new PreferenciasUsuario();
+
+  prefs.tokenUser = '';
+  prefs.tokenRefresh = '';
+  return Navigator.pushNamed(context, 'login');
 }
 
 Widget _playList(BuildContext context) {
