@@ -28,3 +28,16 @@ Future<List<AuthModelPLayList>> playList() async {
     return [];
   }
 }
+
+listPlayList(String id, limit, offset) async {
+  final prefs = PreferenciasUsuario();
+
+  final resp = await http.get(
+    Uri.parse(
+      'https://api.spotify.com/v1/playlists/$id/tracks?market=ES&limit=${limit}&offset=${offset}',
+    ),
+    headers: {'Authorization': 'Bearer ${prefs.tokenUser}'},
+  );
+
+  print(resp);
+}
