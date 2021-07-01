@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
+import 'package:flutter_application_1/src/providers/play_list_provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,9 +13,15 @@ class _HomePageState extends State<HomePage> {
   final prefs = new PreferenciasUsuario();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    listPlayList('5tyneaeBQREnBe06qagqwO', 5, 0);
+  }
+
+  @override
   Widget build(BuildContext context) {
     prefs.ultimaPagina = _HomePageState.routeName;
-
     return Scaffold(
       backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
       appBar: AppBar(

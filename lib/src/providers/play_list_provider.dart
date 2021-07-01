@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_application_1/src/models/auth_model_play_list_music.dart';
 import 'package:flutter_application_1/src/models/play_list_model.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:http/http.dart' as http;
@@ -29,7 +30,8 @@ Future<List<AuthModelPLayList>> playList() async {
   }
 }
 
-listPlayList(String id, limit, offset) async {
+Future<List<AuthModelPlayListMusic>> listPlayList(
+    String id, limit, offset) async {
   final prefs = PreferenciasUsuario();
 
   final resp = await http.get(
@@ -38,6 +40,21 @@ listPlayList(String id, limit, offset) async {
     ),
     headers: {'Authorization': 'Bearer ${prefs.tokenUser}'},
   );
+  if (resp.statusCode == 200) {
+    final Map<String, dynamic> decodeData = jsonDecode(resp.body);
 
-  print(resp);
+    final List<AuthModelPlayListMusic> playListMusicUser = [];
+
+    if (decodeData == null) return [];
+
+    final playlistMusic = AuthModelPlayListMusic.fromJson(decodeData);
+
+    playListMusicUser.add(playlistMusic);
+
+    // print(playListMusicUser[0].items[0].track.album.artists[0].name);
+
+    return playListMusicUser;
+  } else {
+    return [];
+  }
 }
