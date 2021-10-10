@@ -36,7 +36,7 @@ Future<List<AuthModelPlayListMusic>> listPlayList(
 
   final resp = await http.get(
     Uri.parse(
-      'https://api.spotify.com/v1/playlists/$id/tracks?market=ES&limit=${limit}&offset=${offset}',
+      'https://api.spotify.com/v1/playlists/$id/tracks?market=ES&limit=$limit&offset=$offset',
     ),
     headers: {'Authorization': 'Bearer ${prefs.tokenUser}'},
   );

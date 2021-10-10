@@ -16,8 +16,8 @@ class _IndexState extends State<Index> {
 
   Map<String, int> _routers = {
     'home': 0,
-    'search': 1,
-    'play_list': 2,
+    'play_list': 1,
+    'search': 2,
     'account': 3,
   };
 
@@ -37,9 +37,9 @@ class _IndexState extends State<Index> {
   }
 
   List<Widget> _paginas = [
+    ListaPage(),
     HomePage(),
     SearchPage(),
-    ListaPage(),
     AccountPage(),
   ];
 
@@ -51,16 +51,16 @@ class _IndexState extends State<Index> {
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+            icon: Icon(Icons.library_music),
+            label: 'Music Library',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.playlist_play),
+            label: 'Play List',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.library_music),
-            label: 'Music Library',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.account_circle),

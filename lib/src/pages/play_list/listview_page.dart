@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/bloc/provider.dart';
 import 'package:flutter_application_1/src/models/play_list_model.dart';
+import 'package:flutter_application_1/src/pages/home/home_page.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 import 'package:flutter_application_1/src/providers/play_list_provider.dart';
 
@@ -52,11 +54,22 @@ class _ListaPageState extends State<ListaPage> {
                     padding: EdgeInsets.all(10.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(15),
-                      child: FadeInImage(
-                        fit: BoxFit.cover,
-                        placeholder: AssetImage('assets/loading.gif'),
-                        image: NetworkImage(
-                          snapshot.data[0].items[index].images[0].url,
+                      child: GestureDetector(
+                        onTap: () async {
+                          final bloc = Provider.of(context);
+
+                          await bloc.changeIdPlayList(
+                              snapshot.data[0].items[index].id);
+                          prefs.ultimaPagina = 'play_list';
+
+                          Navigator.of(context).pushNamed('index');
+                        },
+                        child: FadeInImage(
+                          fit: BoxFit.cover,
+                          placeholder: AssetImage('assets/loading.gif'),
+                          image: NetworkImage(
+                            snapshot.data[0].items[index].images[0].url,
+                          ),
                         ),
                       ),
                     ),
