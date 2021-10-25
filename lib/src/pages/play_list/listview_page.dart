@@ -39,6 +39,8 @@ class _ListaPageState extends State<ListaPage> {
   }
 
   Widget _crearLista(BuildContext context) {
+    final prefs = new PreferenciasUsuario();
+
     return FutureBuilder(
       future: playList(),
       builder: (BuildContext context,
@@ -55,10 +57,9 @@ class _ListaPageState extends State<ListaPage> {
                       borderRadius: BorderRadius.circular(15),
                       child: GestureDetector(
                         onTap: () async {
-                          // final bloc = Provider.of(context);
+                          String _id = snapshot.data[0].items[index].id;
 
-                          // String id = bloc.idPlayList;
-                          // prefs.idPlayList = await
+                          prefs.idPlayList = _id;
 
                           prefs.ultimaPagina = 'play_list';
 
