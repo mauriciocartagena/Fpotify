@@ -15,6 +15,7 @@ class _ListaPageState extends State<ListaPage> {
   @override
   Widget build(BuildContext context) {
     prefs.ultimaPagina = _ListaPageState.routeName;
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
       appBar: AppBar(

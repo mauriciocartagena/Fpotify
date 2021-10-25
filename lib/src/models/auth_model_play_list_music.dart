@@ -3,7 +3,6 @@
 //     final authModelPlayListMusic = authModelPlayListMusicFromJson(jsonString);
 
 import 'dart:convert';
-import 'package:intl/intl.dart';
 
 AuthModelPlayListMusic authModelPlayListMusicFromJson(String str) =>
     AuthModelPlayListMusic.fromJson(json.decode(str));
@@ -263,8 +262,8 @@ class Album {
   String id;
   List<Image> images;
   String name;
-  DateTime releaseDate;
-  String releaseDatePrecision;
+  dynamic releaseDate;
+  dynamic releaseDatePrecision;
   int totalTracks;
   String type;
   String uri;
@@ -278,7 +277,7 @@ class Album {
         id: json["id"],
         images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
         name: json["name"],
-        releaseDate: DateTime.parse(json["release_date"]),
+        releaseDate: json["release_date"],
         releaseDatePrecision: json["release_date_precision"],
         totalTracks: json["total_tracks"],
         type: json["type"],
