@@ -125,12 +125,32 @@ class _HomePageState extends State<HomePage> {
           return Container();
         } else {
           final imagen = _dataMusic[0].items[index].track.album.images[1].url;
-
-          return FadeInImage(
-            placeholder: AssetImage('assets/loading.gif'),
-            image: NetworkImage(
-              imagen,
-            ),
+          return Column(
+            children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/loading.gif'),
+                    image: NetworkImage(
+                      imagen,
+                    ),
+                  )),
+              Text(
+                _dataMusic[0].items[index].track.name,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "Artista : ${_dataMusic[0].items[index].track.artists[0].name}",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.0,
+                ),
+              )
+            ],
           );
         }
       },
