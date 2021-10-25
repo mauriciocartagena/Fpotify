@@ -25,7 +25,15 @@ class _IndexState extends State<Index> {
   void initState() {
     super.initState();
 
-    String lastPage = prefs.ultimaPagina;
+    String prefsLastPage = prefs.ultimaPagina;
+
+    if (prefsLastPage == 'Index') {
+      String lastPage = 'home';
+
+      _selectedIndex = _routers[lastPage];
+    }
+    String lastPage = prefsLastPage;
+    // Verificar la preferencia de la ultimaPagina que pasa
 
     _selectedIndex = _routers[lastPage];
   }

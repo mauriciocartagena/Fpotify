@@ -4,9 +4,9 @@ import 'dart:convert';
 import 'package:flutter_application_1/src/models/auth_model_me.dart';
 import 'package:flutter_application_1/src/models/auth_model_spotify.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
+import 'package:flutter_application_1/src/utills/spotify_oauth2_client.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
-import 'package:oauth2_client/google_oauth2_client.dart';
 import 'package:oauth2_client/oauth2_helper.dart';
 
 Future<Map<String, dynamic>> authenticate() async {

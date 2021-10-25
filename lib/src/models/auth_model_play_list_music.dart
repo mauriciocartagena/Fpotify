@@ -3,6 +3,7 @@
 //     final authModelPlayListMusic = authModelPlayListMusicFromJson(jsonString);
 
 import 'dart:convert';
+import 'package:intl/intl.dart';
 
 AuthModelPlayListMusic authModelPlayListMusicFromJson(String str) =>
     AuthModelPlayListMusic.fromJson(json.decode(str));

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/bloc/login_bloc.dart';
-import 'package:flutter_application_1/src/bloc/login_bloc.dart';
+// import 'package:flutter_application_1/src/bloc/login_bloc.dart';
 
 class Provider extends InheritedWidget {
   static Provider _instancia;

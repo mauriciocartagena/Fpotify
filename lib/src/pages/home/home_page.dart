@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/bloc/login_bloc.dart';
 
@@ -12,16 +14,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  static final String routeName = 'home';
-
+  ScrollController _scrollController = new ScrollController();
   final prefs = new PreferenciasUsuario();
 
-  List<int> _listaNumeros = [1, 2, 3, 4, 5];
+  static final String routeName = 'home';
+  dynamic _dataMusic;
+  int _limit = 5;
+  int _offset = 0;
+
+  List<int> _listaNumeros = [];
+  int _ultimoItem = 0;
+  bool _isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _cargarPlayListMusic('5tyneaeBQREnBe06qagqwO', 5, 0);
+
+    _cargar5();
+
+    // dynamic dataMusic =
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _cargarPlayListMusic();
+        // _cargar5();
+      }
+    });
   }
 
   @override
@@ -30,54 +49,109 @@ class _HomePageState extends State<HomePage> {
 
     final bloc = Provider.of(context);
 
-    print(bloc);
     _viewProvider(bloc);
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: Color.fromRGBO(11, 14, 17, 0.0),
-        brightness: Brightness.dark,
-        title: Text(
-          'Your Music',
-          style: TextStyle(
-            fontSize: 25.0,
-            fontWeight: FontWeight.bold,
+        backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          backgroundColor: Color.fromRGBO(11, 14, 17, 0.0),
+          brightness: Brightness.dark,
+          title: Text(
+            'Your Music',
+            style: TextStyle(
+              fontSize: 25.0,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      body: _crearList(),
-    );
+        body: Stack(
+          children: <Widget>[_crearList(), _crearLoading()],
+        ));
   }
 
-  _cargarPlayListMusic(id, limit, offset) async {
-    final data = await listPlayList(id, limit, offset);
+  Future _cargarPlayListMusic() async {
+    _isLoading = true;
 
-    // return
-    // print(data[0].items[1].track.album.images[1].url);
-    return {limit, data[0]};
+    final duration = new Duration(seconds: 2);
+
+    setState(() {});
+
+    return new Timer(duration, response);
+  }
+
+  void response() {
+    _isLoading = false;
+
+    _scrollController.animateTo(
+      _scrollController.position.pixels + 100,
+      curve: Curves.fastOutSlowIn,
+      duration: Duration(milliseconds: 250),
+    );
+
+    _cargar5();
   }
 
   _viewProvider(LoginBloc bloc) {
     // if (bloc.username[0].isEmpty) {}
     // print(bloc.idPlayList);
   }
+  Widget _crearLoading() {
+    if (_isLoading) {
+      return Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CircularProgressIndicator(),
+            ],
+          ),
+          SizedBox(height: 15.0)
+        ],
+      );
+    } else {
+      return Container();
+    }
+  }
 
   Widget _crearList() {
     return ListView.builder(
+      controller: _scrollController,
       itemCount: _listaNumeros.length,
       itemBuilder: (BuildContext context, int index) {
-        final imagen = _listaNumeros[index];
-        return FadeInImage(
-          placeholder: AssetImage('assets/loading.gif'),
-          image: NetworkImage(
-            'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQU2JRbbl3LBOm_an3eI5iplFhOoLESyBwUfmWDO49BS1EYuGUE',
-          ),
-        );
+        if (_dataMusic == null) {
+          return Container();
+        } else {
+          final imagen = _dataMusic[0].items[index].track.album.images[1].url;
+
+          return FadeInImage(
+            placeholder: AssetImage('assets/loading.gif'),
+            image: NetworkImage(
+              imagen,
+            ),
+          );
+        }
       },
     );
   }
 
-  _cargar5(id) {}
+  void _cargar5() async {
+    for (var i = 0; i < 5; i++) {
+      _ultimoItem++;
+
+      _listaNumeros.add(_ultimoItem);
+      _limit = _ultimoItem;
+    }
+    _dataMusic = await listPlayList(prefs.idPlayList, _limit, _offset);
+
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
 }

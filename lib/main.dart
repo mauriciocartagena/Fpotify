@@ -29,11 +29,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final prefs = new PreferenciasUsuario();
 
+    String token = prefs.tokenUser;
+
     return Provider(
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Fpotify',
-        initialRoute: prefs.tokenUser != '' ? 'index' : 'login',
+        initialRoute: token != '' || null ? 'index' : 'login',
         routes: {
           'login': (BuildContext context) => LoginPage(),
           'index': (BuildContext context) => Index(),

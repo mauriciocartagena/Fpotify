@@ -116,31 +116,31 @@ Widget _mensaje(title) {
   );
 }
 
-Widget _crearEmail() {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 20.0),
-    child: TextField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          icon: Icon(Icons.alternate_email, color: Colors.deepPurple),
-          hintText: 'example@gmail.com',
-          labelText: 'Correo Electronico'),
-    ),
-  );
-}
+// Widget _crearEmail() {
+//   return Container(
+//     padding: EdgeInsets.symmetric(horizontal: 20.0),
+//     child: TextField(
+//       keyboardType: TextInputType.emailAddress,
+//       decoration: InputDecoration(
+//           icon: Icon(Icons.alternate_email, color: Colors.deepPurple),
+//           hintText: 'example@gmail.com',
+//           labelText: 'Correo Electronico'),
+//     ),
+//   );
+// }
 
-Widget _crearPassword() {
-  return Container(
-    padding: EdgeInsets.symmetric(horizontal: 20.0),
-    child: TextField(
-      obscureText: true,
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-          icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
-          labelText: 'Contrasena'),
-    ),
-  );
-}
+// Widget _crearPassword() {
+//   return Container(
+//     padding: EdgeInsets.symmetric(horizontal: 20.0),
+//     child: TextField(
+//       obscureText: true,
+//       keyboardType: TextInputType.emailAddress,
+//       decoration: InputDecoration(
+//           icon: Icon(Icons.lock_outline, color: Colors.deepPurple),
+//           labelText: 'Contrasena'),
+//     ),
+//   );
+// }
 
 Widget _crearButton(name, icon, event) {
   final title = name == null ? 'No have title' : name;

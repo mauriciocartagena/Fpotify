@@ -42,4 +42,12 @@ class PreferenciasUsuario {
   set ultimaPagina(String value) {
     _prefs.setString('ultimaPagina', value);
   }
+
+  get idPlayList {
+    return _prefs.getString('idPlayList') ?? '5tyneaeBQREnBe06qagqwO';
+  }
+
+  set idPlayList(String value) {
+    _prefs.setString('idPlayList', value);
+  }
 }
