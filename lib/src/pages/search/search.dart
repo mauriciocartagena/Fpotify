@@ -38,21 +38,89 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
         ),
-        body: ListView.builder(
-          itemCount: widget.list.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text(
-                widget.list[index],
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.blue,
-                  fontWeight: FontWeight.bold,
-                  backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
+        body: Padding(
+          padding: EdgeInsets.all(15.0),
+          child: Column(
+            children: <Widget>[
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      'Recientes busquedas',
+                      style: TextStyle(
+                        fontSize: 19.0,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Icon(
+                      Icons.delete_outlined,
+                      color: Colors.white,
+                    ),
+                  ],
                 ),
               ),
-            );
-          },
+              Expanded(
+                child: _recentSearches(),
+              )
+            ],
+          ),
         ));
+  }
+
+  _recentSearches() {
+    return ListView.builder(
+      itemCount: widget.list.length,
+      itemBuilder: (context, index) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            CircleAvatar(
+              maxRadius: 37.0,
+              backgroundImage: NetworkImage(
+                'https://as.com/diarioas/imagenes/2021/05/19/actualidad/1621414987_960174_1621415108_noticia_normal_recorte1.jpg',
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(10, 0, 160, 0),
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          'Rammstein',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        Text(
+                          'By Hello',
+                          style: TextStyle(
+                            color: Colors.white60,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.close,
+              color: Colors.white,
+            )
+          ],
+        );
+        // ListTile(
+        //   title: Text(
+        //     'Number ${index}',
+        //     style: TextStyle(color: Colors.blue),
+        //   ),
+        // );
+      },
+    );
   }
 }
