@@ -83,6 +83,13 @@ class Find extends SearchDelegate {
           title: Text(
             suggestionList[index],
           ),
+          leading: FadeInImage.assetNetwork(
+            fadeOutCurve: Curves.easeInCubic,
+            placeholder: 'assets/loading.gif',
+            fit: BoxFit.cover,
+            image:
+                'https://confilegal.com/wp-content/uploads/2016/01/EL-OJO-QUE-TODO-LO-VE-FINAL-.jpg',
+          ),
           onTap: () {
             selectedResult = suggestionList[index];
             showResults(context);

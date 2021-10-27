@@ -30,6 +30,7 @@ class _SearchPageState extends State<SearchPage> {
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
           brightness: Brightness.dark,
+          centerTitle: false,
           title: Text(
             'Search',
             style: TextStyle(
