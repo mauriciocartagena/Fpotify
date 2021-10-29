@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/src/pages/account/account.dart';
 import 'package:flutter_application_1/src/pages/home/home_page.dart';
 import 'package:flutter_application_1/src/pages/index.dart';
@@ -27,6 +28,9 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle.light.copyWith(statusBarColor: Colors.white));
+
     final prefs = new PreferenciasUsuario();
 
     String token = prefs.tokenUser;

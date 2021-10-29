@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/bloc/AudioPlayerController.dart';
@@ -11,13 +13,77 @@ class PlayMusic extends StatefulWidget {
 class _PlayMusicState extends State<PlayMusic> {
   @override
   Widget build(BuildContext context) {
+    MediaQueryData queryData;
+    queryData = MediaQuery.of(context);
+
+    final _maxWidth = queryData.size.width;
+    final _maxHeight = queryData.size.height;
+
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text('Play'),
+      body: Stack(
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Container(
+                child: ClipRRect(
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Image.network(
+                      'https://cdns-images.dzcdn.net/images/cover/e24ae59ad933185bd6689d388eb0f256/350x350.jpg',
+                      fit: BoxFit.cover,
+                      height: _maxHeight,
+                      width: _maxWidth,
+                    ),
+                  ),
+                ),
+              ),
+
+              SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    _titulos(),
+                    SafeArea(
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+                        child: Image.network(
+                          'https://cdns-images.dzcdn.net/images/cover/e24ae59ad933185bd6689d388eb0f256/350x350.jpg',
+                          width: 350,
+                          height: 350,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
+                    _player()
+                  ],
+                ),
+              ),
+              // _fondoApp(),
+            ],
+          ),
+        ],
       ),
-      body: Container(
-        child: _player(),
+      backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
+    );
+  }
+
+  Widget _titulos() {
+    return SafeArea(
+      child: Container(
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'Play Music',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 30.0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -27,30 +93,45 @@ class _PlayMusicState extends State<PlayMusic> {
       child: Column(
         children: <Widget>[
           StreamBuilder(
-              stream: audioC.outPlayer,
-              builder: (context, AsyncSnapshot<AudioPlayerModel> snapshot) {
-                print(snapshot.data.duration);
-                return _tab(
-                  [
-                    Text(snapshot.data.musicaActual),
-                    _slider(snapshot.data),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Text('00' + ":" + "00"),
-                        Text(
-                          snapshot.data.duration.inMinutes.toString() +
-                              ':' +
-                              (snapshot.data.duration.inSeconds -
-                                      (snapshot.data.duration.inMinutes * 60))
-                                  .toString(),
-                        ),
-                      ],
+            stream: audioC.outPlayer,
+            builder: (context, AsyncSnapshot<AudioPlayerModel> snapshot) {
+              return _tab(
+                [
+                  Text(
+                    snapshot.data.musicaActual,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
                     ),
-                    _acoes(snapshot.data),
-                  ],
-                );
-              })
+                  ),
+                  _slider(snapshot.data),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        '00' + ":" + "00",
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      Text(
+                        snapshot.data.duration.inMinutes.toString() +
+                            ':' +
+                            (snapshot.data.duration.inSeconds -
+                                    (snapshot.data.duration.inMinutes * 60))
+                                .toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                  _acoes(snapshot.data),
+                ],
+              );
+            },
+          ),
         ],
       ),
     );
@@ -63,11 +144,15 @@ class _PlayMusicState extends State<PlayMusic> {
         IconButton(
           onPressed: () {},
           icon: Icon(Icons.skip_previous),
+          color: Colors.white,
+          iconSize: 50,
         ),
         IconButton(
           onPressed: () {
             audioC.buttonPlayPause();
           },
+          color: Colors.white,
+          iconSize: 50,
           icon: Icon(objeto.play == true
               ? Icons.pause_circle_filled
               : Icons.play_circle_filled),
@@ -75,6 +160,8 @@ class _PlayMusicState extends State<PlayMusic> {
         IconButton(
           onPressed: () {},
           icon: Icon(Icons.skip_next),
+          color: Colors.white,
+          iconSize: 50,
         )
       ],
     );
@@ -101,6 +188,8 @@ class _PlayMusicState extends State<PlayMusic> {
     return Slider(
       value: objeto.position.inSeconds.toDouble(),
       max: objeto.duration.inSeconds.toDouble(),
+      activeColor: Colors.white,
+      inactiveColor: Colors.grey,
       min: 0.0,
       onChanged: (value) {
         setState(() {
