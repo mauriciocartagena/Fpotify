@@ -38,6 +38,8 @@ dependencies:
   path_provider: ^2.0.2
   intl: ^0.17.0
   dio: ^4.0.1
+  audioplayers: ^0.20.1
+  flutter_bloc: ^7.3.1
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +62,7 @@ flutter:
     - assets/adaptive-icon.png
     - assets/loading.gif
     - .env
+    - assets/Rammstein.mp3
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
