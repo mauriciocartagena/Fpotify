@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/src/models/search_model.dart';
+import 'package:flutter_application_1/src/providers/search_provider.dart';
 
-class Find extends SearchDelegate {
+class Find extends SearchDelegate<Item> {
+  @override
+  final String searchFieldLabel;
+  final List<Item> historial;
+
+  Find(this.searchFieldLabel, this.historial);
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return <Widget>[
@@ -39,60 +47,67 @@ class Find extends SearchDelegate {
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        Navigator.pop(context);
+        icon: Icon(Icons.arrow_back_ios),
+        onPressed: () => this.close(context, null));
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    if (query.trim().length == 0) {
+      return Text('No hay valor en el query');
+    }
+
+    return FutureBuilder(
+      future: search('track', query, 5),
+      builder: (_, AsyncSnapshot snapshot) {
+        if (snapshot.hasError) {
+          return ListTile(title: Text('No hay nada con ese término'));
+        }
+        if (snapshot.hasData) {
+          return _showMusic(snapshot.data);
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
       },
     );
   }
 
-  String selectedResult;
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Container(
-      color: Color.fromRGBO(11, 14, 17, 1.0),
-      child: Center(
-        child: Text(
-          selectedResult,
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  final List<String> listExample;
-  Find(this.listExample);
-
-  List<String> recentList = ['Text 4', 'text 3'];
-
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> suggestionList = [];
-    query.isEmpty
-        ? suggestionList = recentList
-        : suggestionList
-            .addAll(listExample.where((element) => element.contains(query)));
+    if (historial == null) {
+      return Container();
+    } else {
+      return _showMusic(this.historial);
+    }
+  }
 
+  Widget _showMusic(List<Item> music) {
     return ListView.builder(
-      itemCount: suggestionList.length,
-      itemBuilder: (context, index) {
+      itemCount: music.length,
+      itemBuilder: (context, i) {
+        final result = music[i];
+
         return ListTile(
-          title: Text(
-            suggestionList[index],
-          ),
           leading: FadeInImage.assetNetwork(
-            fadeOutCurve: Curves.easeInCubic,
             placeholder: 'assets/loading.gif',
-            fit: BoxFit.cover,
-            image:
-                'https://confilegal.com/wp-content/uploads/2016/01/EL-OJO-QUE-TODO-LO-VE-FINAL-.jpg',
+            image: result.album.images[1].url,
+          ),
+          title: Text(
+            result.name,
+            style: TextStyle(color: Colors.white),
+          ),
+          subtitle: Text(
+            result.artists[0].name,
+            style: TextStyle(color: Colors.white),
+          ),
+          trailing: Text(
+            '${result.popularity}',
+            style: TextStyle(color: Colors.white),
           ),
           onTap: () {
-            selectedResult = suggestionList[index];
-            showResults(context);
+            this.close(context, result);
           },
         );
       },

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/src/models/search_model.dart';
 import 'package:flutter_application_1/src/pages/search/find.dart';
 import 'package:flutter_application_1/src/preferences_user/preferences_user.dart';
 
 class SearchPage extends StatefulWidget {
-  final List<String> list = List.generate(10, (index) => "text $index");
-
   @override
   _SearchPageState createState() => _SearchPageState();
 }
 
 class _SearchPageState extends State<SearchPage> {
+  Item selectSearch;
+
+  List<Item> historial = [];
+
   static final String routeName = 'search';
 
   final prefs = new PreferenciasUsuario();
+
   @override
   Widget build(BuildContext context) {
     prefs.ultimaPagina = _SearchPageState.routeName;
@@ -22,10 +26,20 @@ class _SearchPageState extends State<SearchPage> {
           actions: [
             IconButton(
               icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: Find(widget.list));
+              onPressed: () async {
+                final finalResult = await showSearch(
+                  context: context,
+                  delegate: Find('Buscar...', historial),
+                );
+                setState(() {
+                  this.selectSearch = finalResult;
+
+                  if (finalResult != null) {
+                    this.historial.insert(0, finalResult);
+                  }
+                });
               },
-            ),
+            )
           ],
           automaticallyImplyLeading: false,
           backgroundColor: Color.fromRGBO(11, 14, 17, 1.0),
@@ -63,9 +77,10 @@ class _SearchPageState extends State<SearchPage> {
                   ],
                 ),
               ),
-              Expanded(
-                child: _recentSearches(),
-              )
+              if (selectSearch != null)
+                Expanded(
+                  child: _recentSearches(),
+                )
             ],
           ),
         ));
@@ -73,32 +88,31 @@ class _SearchPageState extends State<SearchPage> {
 
   _recentSearches() {
     return ListView.builder(
-      itemCount: widget.list.length,
+      itemCount: historial.length,
       itemBuilder: (context, index) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             CircleAvatar(
               maxRadius: 37.0,
-              backgroundImage: NetworkImage(
-                'https://as.com/diarioas/imagenes/2021/05/19/actualidad/1621414987_960174_1621415108_noticia_normal_recorte1.jpg',
-              ),
+              backgroundImage:
+                  NetworkImage(historial[index].album.images[2].url),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 160, 0),
+              padding: EdgeInsets.fromLTRB(10, 0, 0, 0),
               child: Row(
                 children: <Widget>[
                   Container(
                     child: Column(
                       children: <Widget>[
                         Text(
-                          'Rammstein',
+                          historial[index].name,
                           style: TextStyle(
                             color: Colors.white,
                           ),
                         ),
                         Text(
-                          'By Hello',
+                          historial[index].artists[0].name,
                           style: TextStyle(
                             color: Colors.white60,
                           ),
@@ -115,12 +129,6 @@ class _SearchPageState extends State<SearchPage> {
             )
           ],
         );
-        // ListTile(
-        //   title: Text(
-        //     'Number ${index}',
-        //     style: TextStyle(color: Colors.blue),
-        //   ),
-        // );
       },
     );
   }
