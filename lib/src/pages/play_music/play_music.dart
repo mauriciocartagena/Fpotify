@@ -206,7 +206,4 @@ class _PlayMusicState extends State<PlayMusic> {
       },
     );
   }
-
-  @override
-  dispose() {}
 }

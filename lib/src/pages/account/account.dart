@@ -66,8 +66,12 @@ Widget _cargarUser(BuildContext context) {
                         child: CircleAvatar(
                           radius: 50.0,
                           backgroundColor: Colors.transparent,
-                          backgroundImage:
-                              NetworkImage(snapshot.data[0].images[0].url),
+                          child: FadeInImage.assetNetwork(
+                            placeholder: 'assets/loading.gif',
+                            image: (snapshot.data[0].images.isNotEmpty)
+                                ? snapshot.data[0].images[0].url
+                                : 'https://www.csudh.edu/Assets/global/images/avatars/avatar-cccccc-600x600.png',
+                          ),
                         ),
                       ),
                       SizedBox(

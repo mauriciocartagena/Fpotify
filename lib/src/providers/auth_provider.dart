@@ -76,8 +76,13 @@ Future<Map<String, dynamic>> authenticate() async {
 Future<List<AuthModelMe>> me() async {
   final prefs = new PreferenciasUsuario();
 
-  final me = await http.get(Uri.parse('https://api.spotify.com/v1/me'),
-      headers: {'Authorization': 'Bearer ${prefs.tokenUser}'});
+  final me = await http.get(
+    Uri.parse('https://api.spotify.com/v1/me'),
+    headers: {
+      'Authorization': 'Bearer ${prefs.tokenUser}',
+    },
+  );
+
   if (me.statusCode == 401) {
     updateToken();
   }
