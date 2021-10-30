@@ -28,8 +28,10 @@ class _PlayMusicState extends State<PlayMusic> {
                 child: ClipRRect(
                   child: ImageFiltered(
                     imageFilter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Image.network(
-                      'https://cdns-images.dzcdn.net/images/cover/e24ae59ad933185bd6689d388eb0f256/350x350.jpg',
+                    child: FadeInImage.assetNetwork(
+                      placeholder: 'assets/loading.gif',
+                      image:
+                          'https://cdns-images.dzcdn.net/images/cover/e24ae59ad933185bd6689d388eb0f256/350x350.jpg',
                       fit: BoxFit.cover,
                       height: _maxHeight,
                       width: _maxWidth,
@@ -46,8 +48,10 @@ class _PlayMusicState extends State<PlayMusic> {
                       child: Container(
                         alignment: Alignment.center,
                         padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-                        child: Image.network(
-                          'https://cdns-images.dzcdn.net/images/cover/e24ae59ad933185bd6689d388eb0f256/350x350.jpg',
+                        child: FadeInImage.assetNetwork(
+                          placeholder: 'assets/loading.gif',
+                          image:
+                              'https://cdns-images.dzcdn.net/images/cover/e24ae59ad933185bd6689d388eb0f256/350x350.jpg',
                           width: 350,
                           height: 350,
                           fit: BoxFit.fill,
@@ -95,41 +99,45 @@ class _PlayMusicState extends State<PlayMusic> {
           StreamBuilder(
             stream: audioC.outPlayer,
             builder: (context, AsyncSnapshot<AudioPlayerModel> snapshot) {
-              return _tab(
-                [
-                  Text(
-                    snapshot.data.musicaActual,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+              if (snapshot.hasData) {
+                return _tab(
+                  [
+                    Text(
+                      snapshot.data.musicaActual,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  _slider(snapshot.data),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text(
-                        '00' + ":" + "00",
-                        style: TextStyle(
-                          color: Colors.white,
+                    _slider(snapshot.data),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          '00' + ":" + "00",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                      Text(
-                        snapshot.data.duration.inMinutes.toString() +
-                            ':' +
-                            (snapshot.data.duration.inSeconds -
-                                    (snapshot.data.duration.inMinutes * 60))
-                                .toString(),
-                        style: TextStyle(
-                          color: Colors.white,
+                        Text(
+                          snapshot.data.duration.inMinutes.toString() +
+                              ':' +
+                              (snapshot.data.duration.inSeconds -
+                                      (snapshot.data.duration.inMinutes * 60))
+                                  .toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  _acoes(snapshot.data),
-                ],
-              );
+                      ],
+                    ),
+                    _acoes(snapshot.data),
+                  ],
+                );
+              } else {
+                return CircularProgressIndicator();
+              }
             },
           ),
         ],
@@ -198,4 +206,7 @@ class _PlayMusicState extends State<PlayMusic> {
       },
     );
   }
+
+  @override
+  dispose() {}
 }

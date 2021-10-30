@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
     }
     _dataMusic = await listPlayList(prefs.idPlayList, _limit, _offset);
 
-    setState(() {});
+    // setState(() {});
   }
 
   @override
